@@ -107,16 +107,24 @@ def main():
     # Spatial clip to PJM boundary
     print("Clipping to PJM boundary...")
     clipped = []
+    # HIFLD owner names lag corporate restructurings.
+    OWNER_REMAPS = {
+        # DP&L rebranded to AES Ohio, Feb 2021. Source: aes-ohio.com
+        "DAYTON POWER AND LIGHT CO.": "AES OHIO",
+    }
+
     for feat in high_voltage:
         if line_intersects_boundary(feat["geometry"], pjm_coords):
             props = feat["properties"]
+            owner = props.get("OWNER", "")
+            owner = OWNER_REMAPS.get(owner, owner)
             clipped.append({
                 "type": "Feature",
                 "geometry": feat["geometry"],
                 "properties": {
                     "voltage": props.get("VOLTAGE"),
                     "volt_class": props.get("VOLT_CLASS", ""),
-                    "owner": props.get("OWNER", ""),
+                    "owner": owner,
                     "status": props.get("STATUS", ""),
                     "sub_1": props.get("SUB_1", ""),
                     "sub_2": props.get("SUB_2", ""),

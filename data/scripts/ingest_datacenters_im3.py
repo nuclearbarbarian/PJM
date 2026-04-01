@@ -71,6 +71,17 @@ def filter_boundary_exclaves(coords):
     return filtered
 
 
+    # IM3/OSM operator names lag corporate restructurings.
+OPERATOR_REMAPS = {
+    # Cyxtera filed Ch. 11 Jun 2023, sold to Brookfield/Evoque Jan 2024,
+    # rebranded to Centersquare Apr 2024. Source: datacenterdynamics.com
+    "Cyxtera": "Centersquare",
+    # Evocative (formerly Evoque) merged with Cyxtera under Brookfield,
+    # rebranded to Centersquare Apr 2024. Source: businesswire.com
+    "Evocative": "Centersquare",
+}
+
+
 def load_im3_data():
     """Read building and point layers from GeoPackage via sqlite3."""
     conn = sqlite3.connect(str(GPKG_PATH))
@@ -86,9 +97,10 @@ def load_im3_data():
         """)
         for row in cur.fetchall():
             name, operator, state, county, sqft, lon, lat, im3_id = row
+            op = OPERATOR_REMAPS.get(operator, operator) if operator else ""
             facilities.append({
                 "name": name or "Unnamed",
-                "operator": operator or "",
+                "operator": op,
                 "state": state or "",
                 "county": county or "",
                 "sqft": round(sqft) if sqft is not None else None,
@@ -109,9 +121,10 @@ def load_im3_data():
         point_candidates = []
         for row in cur.fetchall():
             name, operator, state, county, sqft, lon, lat, im3_id = row
+            op = OPERATOR_REMAPS.get(operator, operator) if operator else ""
             point_candidates.append({
                 "name": name or "Unnamed",
-                "operator": operator or "",
+                "operator": op,
                 "state": state or "",
                 "county": county or "",
                 "sqft": round(sqft) if sqft is not None else None,

@@ -2,9 +2,9 @@
   "source_url": "https://data.msdlive.org/records/65g71-a4731",
   "source_description": "IM3 Open Source Data Center Atlas (PNNL). Peer-reviewed post-processing of OpenStreetMap data by Pacific Northwest National Laboratory. Adds building footprint area (sqft), county name attribution, and facility classification not available in raw OSM. Building layer (primary) supplemented by point layer.",
   "source_affiliation": "Pacific Northwest National Laboratory (PNNL), IM3 project. US Department of Energy national laboratory. Peer-reviewed dataset.",
-  "access_date": "2026-03-31",
+  "access_date": "2026-04-01",
   "jurisdiction": "PJM Interconnection, LLC",
-  "citation": "Kramer, Anna; McGraw, Julie; Vernon, Chris. \"IM3 Open Source Data Center Atlas.\" MultiSector Dynamics - Living, Intuitive, Value-adding, Environment (MSD-LIVE). DOI: 10.57931/2550666. Accessed March 31, 2026.",
+  "citation": "Kramer, Anna; McGraw, Julie; Vernon, Chris. \"IM3 Open Source Data Center Atlas.\" MultiSector Dynamics - Living, Intuitive, Value-adding, Environment (MSD-LIVE). DOI: 10.57931/2550666. Accessed April 01, 2026.",
   "known_gaps": [
     "[GAP: ~80% coverage for pre-2024 major facilities] Same underlying OSM data as previous version, but with PNNL post-processing (sqft, county names). Key gaps persist: CoreWeave (0 facilities \u2014 Kenilworth NJ and Lancaster PA campuses totaling $7.8B investment absent), Yondr (0 tagged by name), STACK Infrastructure (2 facilities vs 360+ MW announced). Newer AI-era buildouts (2024-2025) structurally absent.",
     "No power demand (MW) data in this dataset. Sqft available for building-layer facilities only (394 of 405 have sqft).",
@@ -64,10 +64,10 @@
       "Equinix": 21,
       "Google": 11,
       "CyrusOne": 9,
+      "Centersquare": 9,
       "Quality Technology Services": 8,
       "Meta": 8,
       "NTT": 6,
-      "Cyxtera": 5,
       "CloudHQ": 5,
       "Flexential": 4,
       "Microsoft": 4,
@@ -260,7 +260,7 @@
     },
     {
       "name": "Cyxtera Sterling IAD1-B",
-      "operator": "Cyxtera",
+      "operator": "Centersquare",
       "state": "VA",
       "county": "Loudoun County",
       "sqft": 79070,
@@ -271,7 +271,7 @@
     },
     {
       "name": "Cyxtera Sterling IAD1-A",
-      "operator": "Cyxtera",
+      "operator": "Centersquare",
       "state": "VA",
       "county": "Loudoun County",
       "sqft": 89830,
@@ -282,7 +282,7 @@
     },
     {
       "name": "Cyxtera Sterling IAD1-C",
-      "operator": "Cyxtera",
+      "operator": "Centersquare",
       "state": "VA",
       "county": "Loudoun County",
       "sqft": 135383,
@@ -315,7 +315,7 @@
     },
     {
       "name": "IAD1",
-      "operator": "Evocative",
+      "operator": "Centersquare",
       "state": "VA",
       "county": "Fairfax County",
       "sqft": 19325,
@@ -832,7 +832,7 @@
     },
     {
       "name": "Cyxtera Sterling DC7",
-      "operator": "Cyxtera",
+      "operator": "Centersquare",
       "state": "VA",
       "county": "Loudoun County",
       "sqft": 130748,
@@ -876,7 +876,7 @@
     },
     {
       "name": "Cyxtera (Digital Realty Trust) Citibank Data Center",
-      "operator": "Cyxtera",
+      "operator": "Centersquare",
       "state": "NJ",
       "county": "Hudson County",
       "sqft": 58356,
@@ -1382,7 +1382,7 @@
     },
     {
       "name": "Evocative Secaucus",
-      "operator": "Evocative",
+      "operator": "Centersquare",
       "state": "NJ",
       "county": "Hudson County",
       "sqft": 101304,

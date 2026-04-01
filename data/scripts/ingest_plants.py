@@ -113,12 +113,25 @@ def main():
                     return None
                 return v
 
-            # Exelon spun off all competitive generation (nuclear + power) to
-            # Constellation Energy on Feb 2, 2022. HIFLD/EIA data still uses
-            # legacy names. Remap to current corporate owner.
+            # HIFLD/EIA operator names lag corporate restructurings.
+            # Remap stale names to current operators with dates and sources.
+            OPERATOR_REMAPS = {
+                # Exelon spun off all competitive gen to Constellation Energy,
+                # Feb 2, 2022. Source: exeloncorp.com/newsroom
+                "EXELON NUCLEAR": "CONSTELLATION ENERGY",
+                "EXELON POWER": "CONSTELLATION ENERGY",
+                # FirstEnergy Gen → Energy Harbor (Feb 2020) → acquired by
+                # Vistra Corp (Mar 1, 2024). Source: investor.vistracorp.com
+                "FIRSTENERGY GENERATION CORP": "VISTRA CORP",
+                # Edison Mission Energy sold to NRG Energy, closed Mar 2014.
+                # Source: powermag.com
+                "MIDWEST GENERATIONS EME LLC": "NRG ENERGY",
+                # PSEG sold fossil fleet to ArcLight/Parkway Generation,
+                # closed Feb 18, 2022 (NJ/MD assets). Source: nj.pseg.com
+                "PSEG FOSSIL LLC": "PARKWAY GENERATION",
+            }
             operator = props.get("OPERATOR") or ""
-            if operator in ("EXELON NUCLEAR", "EXELON POWER"):
-                operator = "CONSTELLATION ENERGY"
+            operator = OPERATOR_REMAPS.get(operator, operator)
 
             plant = {
                 "name": props.get("NAME"),

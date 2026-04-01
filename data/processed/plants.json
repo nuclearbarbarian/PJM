@@ -79,7 +79,7 @@
     {
       "name": "JOLIET 29",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -255,7 +255,7 @@
     {
       "name": "BLOOM",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "DFO",
       "fuel_category": "Oil",
       "status": "RE",
@@ -271,7 +271,7 @@
     {
       "name": "CALUMET",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "RE",
@@ -287,7 +287,7 @@
     {
       "name": "CRAWFORD",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "SUB",
       "fuel_category": "Coal",
       "status": "RE",
@@ -319,7 +319,7 @@
     {
       "name": "ELECTRIC JUNCTION",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "RE",
@@ -335,7 +335,7 @@
     {
       "name": "JOLIET 9",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -351,7 +351,7 @@
     {
       "name": "LOMBARD",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "KER",
       "fuel_category": "Oil",
       "status": "RE",
@@ -383,7 +383,7 @@
     {
       "name": "SABROOKE",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "DFO",
       "fuel_category": "Oil",
       "status": "RE",
@@ -399,7 +399,7 @@
     {
       "name": "WAUKEGAN",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "SUB",
       "fuel_category": "Coal",
       "status": "OP",
@@ -415,7 +415,7 @@
     {
       "name": "WILL COUNTY",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "SUB",
       "fuel_category": "Coal",
       "status": "OP",
@@ -431,7 +431,7 @@
     {
       "name": "FISK STREET",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "SUB",
       "fuel_category": "Coal",
       "status": "SB",
@@ -1263,7 +1263,7 @@
     {
       "name": "PSEG BAYONNE GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "KER",
       "fuel_category": "Oil",
       "status": "RE",
@@ -1279,7 +1279,7 @@
     {
       "name": "BERGEN GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -1295,7 +1295,7 @@
     {
       "name": "PSEG BURLINGTON GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -1311,7 +1311,7 @@
     {
       "name": "PSEG EDISON GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "RE",
@@ -1327,7 +1327,7 @@
     {
       "name": "PSEG ESSEX GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -1343,7 +1343,7 @@
     {
       "name": "PSEG HUDSON GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "RE",
@@ -1359,7 +1359,7 @@
     {
       "name": "PSEG KEARNY GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -1375,7 +1375,7 @@
     {
       "name": "PSEG LINDEN GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -1391,7 +1391,7 @@
     {
       "name": "PSEG MERCER GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "BIT",
       "fuel_category": "Coal",
       "status": "RE",
@@ -1407,7 +1407,7 @@
     {
       "name": "PSEG NATIONAL PARK GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "KER",
       "fuel_category": "Oil",
       "status": "RE",
@@ -1439,7 +1439,7 @@
     {
       "name": "PSEG SEWAREN GENERATING STATION",
       "state": "NJ",
-      "operator": "PSEG FOSSIL LLC",
+      "operator": "PARKWAY GENERATION",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -1615,7 +1615,7 @@
     {
       "name": "FIRSTENERGY ASHTABULA",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "SUB",
       "fuel_category": "Coal",
       "status": "RE",
@@ -1647,7 +1647,7 @@
     {
       "name": "FIRSTENERGY EASTLAKE",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "BIT",
       "fuel_category": "Coal",
       "status": "OP",
@@ -1663,7 +1663,7 @@
     {
       "name": "FIRSTENERGY LAKE SHORE",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "SUB",
       "fuel_category": "Coal",
       "status": "RE",
@@ -1807,7 +1807,7 @@
     {
       "name": "FIRSTENERGY EDGEWATER",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "RE",
@@ -1823,7 +1823,7 @@
     {
       "name": "FIRSTENERGY MAD RIVER",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "DFO",
       "fuel_category": "Oil",
       "status": "RE",
@@ -1855,7 +1855,7 @@
     {
       "name": "FIRSTENERGY R E BURGER",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "BIT",
       "fuel_category": "Coal",
       "status": "RE",
@@ -1871,7 +1871,7 @@
     {
       "name": "FIRSTENERGY W H SAMMIS",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "BIT",
       "fuel_category": "Coal",
       "status": "OP",
@@ -1887,7 +1887,7 @@
     {
       "name": "FIRSTENERGY TORONTO",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "BIT",
       "fuel_category": "Coal",
       "status": "RE",
@@ -1903,7 +1903,7 @@
     {
       "name": "FIRSTENERGY WEST LORAIN",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -1951,7 +1951,7 @@
     {
       "name": "FIRSTENERGY ACME",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "BIT",
       "fuel_category": "Coal",
       "status": "RE",
@@ -1967,7 +1967,7 @@
     {
       "name": "FIRSTENERGY BAY SHORE",
       "state": "OH",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "SUB",
       "fuel_category": "Coal",
       "status": "OP",
@@ -4015,7 +4015,7 @@
     {
       "name": "COLLINS",
       "state": "IL",
-      "operator": "MIDWEST GENERATIONS EME LLC",
+      "operator": "NRG ENERGY",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "RE",
@@ -4111,7 +4111,7 @@
     {
       "name": "FIRSTENERGY BRUCE MANSFIELD",
       "state": "PA",
-      "operator": "FIRSTENERGY GENERATION CORP",
+      "operator": "VISTRA CORP",
       "fuel_raw": "RC",
       "fuel_category": "Coal",
       "status": "OP",
