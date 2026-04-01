@@ -1,9 +1,9 @@
 {
   "source_url": "https://services5.arcgis.com/HDRa0B57OVrv2E1q/arcgis/rest/services/Power_Plants/FeatureServer/0",
   "source_description": "HIFLD Power Plants (derived from EIA-860), spatially clipped to PJM footprint",
-  "access_date": "2026-03-30",
+  "access_date": "2026-04-01",
   "jurisdiction": "PJM Interconnection, LLC",
-  "citation": "Homeland Infrastructure Foundation-Level Data (HIFLD). 'Power Plants.' U.S. Department of Homeland Security, CISA. Accessed March 30, 2026.",
+  "citation": "Homeland Infrastructure Foundation-Level Data (HIFLD). 'Power Plants.' U.S. Department of Homeland Security, CISA. Accessed April 01, 2026.",
   "known_gaps": [
     "HIFLD data vintage may lag EIA-860 by 6-12 months.",
     "Spatial clipping uses PJM Electric Planning Area boundary \u2014 some edge cases may be misclassified.",
@@ -303,7 +303,7 @@
     {
       "name": "DRESDEN GENERATING STATION",
       "state": "IL",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "OP",
@@ -367,7 +367,7 @@
     {
       "name": "QUAD CITIES GENERATING STATION",
       "state": "IL",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "OP",
@@ -895,7 +895,7 @@
     {
       "name": "CONOWINGO",
       "state": "MD",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "WAT",
       "fuel_category": "Hydro",
       "status": "OP",
@@ -1215,7 +1215,7 @@
     {
       "name": "OYSTER CREEK",
       "state": "NJ",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "RE",
@@ -2831,7 +2831,7 @@
     {
       "name": "CHESTER GENERATING STATION",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "DFO",
       "fuel_category": "Oil",
       "status": "OP",
@@ -2847,7 +2847,7 @@
     {
       "name": "CROMBY GENERATING STATION",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "RFO",
       "fuel_category": "Oil",
       "status": "RE",
@@ -2863,7 +2863,7 @@
     {
       "name": "DELAWARE GENERATING STATION",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "RFO",
       "fuel_category": "Oil",
       "status": "OP",
@@ -2879,7 +2879,7 @@
     {
       "name": "EDDYSTONE GENERATING STATION",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -2895,7 +2895,7 @@
     {
       "name": "FALLS",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "DFO",
       "fuel_category": "Oil",
       "status": "OP",
@@ -2911,7 +2911,7 @@
     {
       "name": "MOSER GENERATING STATION",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "DFO",
       "fuel_category": "Oil",
       "status": "OP",
@@ -2927,7 +2927,7 @@
     {
       "name": "MUDDY RUN",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "WAT",
       "fuel_category": "Hydro",
       "status": "OP",
@@ -2943,7 +2943,7 @@
     {
       "name": "PEACH BOTTOM",
       "state": "PA",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "OP",
@@ -2959,7 +2959,7 @@
     {
       "name": "RICHMOND GENERATING STATION",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "DFO",
       "fuel_category": "Oil",
       "status": "OP",
@@ -2975,7 +2975,7 @@
     {
       "name": "SCHUYLKILL GENERATING STATION",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "RFO",
       "fuel_category": "Oil",
       "status": "OP",
@@ -2991,7 +2991,7 @@
     {
       "name": "SOUTHWARK",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "DFO",
       "fuel_category": "Oil",
       "status": "OP",
@@ -3919,7 +3919,7 @@
     {
       "name": "CALVERT CLIFFS NUCLEAR POWER PLANT",
       "state": "MD",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "OP",
@@ -3983,7 +3983,7 @@
     {
       "name": "BRAIDWOOD GENERATION STATION",
       "state": "IL",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "OP",
@@ -3999,7 +3999,7 @@
     {
       "name": "BYRON GENERATING STATION",
       "state": "IL",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "OP",
@@ -4031,7 +4031,7 @@
     {
       "name": "LASALLE GENERATING STATION",
       "state": "IL",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "OP",
@@ -4143,7 +4143,7 @@
     {
       "name": "LIMERICK",
       "state": "PA",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "OP",
@@ -4943,7 +4943,7 @@
     {
       "name": "PENNSBURY",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "LFG",
       "fuel_category": "Biomass",
       "status": "OP",
@@ -4959,7 +4959,7 @@
     {
       "name": "FAIRLESS HILLS",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "LFG",
       "fuel_category": "Biomass",
       "status": "OP",
@@ -5535,7 +5535,7 @@
     {
       "name": "THREE MILE ISLAND",
       "state": "PA",
-      "operator": "EXELON NUCLEAR",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NUC",
       "fuel_category": "Nuclear",
       "status": "OP",
@@ -5551,7 +5551,7 @@
     {
       "name": "CROYDON CT GENERATING STATION",
       "state": "PA",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "DFO",
       "fuel_category": "Oil",
       "status": "OP",
@@ -9791,7 +9791,7 @@
     {
       "name": "SOUTHEAST CHICAGO ENERGY PROJECT",
       "state": "IL",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "NG",
       "fuel_category": "Natural Gas",
       "status": "OP",
@@ -12927,7 +12927,7 @@
     {
       "name": "EXELON SOLAR CHICAGO",
       "state": "IL",
-      "operator": "EXELON POWER",
+      "operator": "CONSTELLATION ENERGY",
       "fuel_raw": "SUN",
       "fuel_category": "Solar",
       "status": "OP",

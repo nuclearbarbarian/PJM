@@ -113,10 +113,17 @@ def main():
                     return None
                 return v
 
+            # Exelon spun off all competitive generation (nuclear + power) to
+            # Constellation Energy on Feb 2, 2022. HIFLD/EIA data still uses
+            # legacy names. Remap to current corporate owner.
+            operator = props.get("OPERATOR") or ""
+            if operator in ("EXELON NUCLEAR", "EXELON POWER"):
+                operator = "CONSTELLATION ENERGY"
+
             plant = {
                 "name": props.get("NAME"),
                 "state": props.get("STATE"),
-                "operator": props.get("OPERATOR"),
+                "operator": operator,
                 "fuel_raw": fuel,
                 "fuel_category": fuel_category,
                 "status": props.get("STATUS"),
