@@ -1,0 +1,283 @@
+{
+  "source_url": "https://api.eia.gov/v2/electricity/rto/region-data",
+  "source_description": "EIA Form 930 \u2014 Hourly Electric Grid Monitor. PJM total interchange, demand, and generation. Annualized from quarterly week-long samples.",
+  "access_date": "2026-03-29",
+  "jurisdiction": "PJM Interconnection, LLC",
+  "citation": "U.S. Energy Information Administration. 'Hourly Electric Grid Monitor.' Form EIA-930. Accessed March 29, 2026.",
+  "known_gaps": [
+    "[ESTIMATE]: Annual totals extrapolated from 4 sample weeks per year (mid-quarter). Actual annual totals may differ due to seasonal variation.",
+    "Neighbor-level detail sampled from July 2024 only \u2014 winter patterns may differ.",
+    "2025 data limited to Q1 sample only."
+  ],
+  "notes": "Positive interchange = net imports into PJM. Interchange \u2248 Demand - Net Generation. Annualization multiplies average hourly value by 8,760 hours.",
+  "units": "MWh",
+  "annual_estimates": [
+    {
+      "year": 2020,
+      "est_annual_interchange_mwh": 38608386,
+      "avg_hourly_interchange_mwh": 4407.4,
+      "quarterly_samples": [
+        {
+          "quarter_sample": "Q1",
+          "interchange_avg_mwh_per_hour": 3543.6,
+          "demand_week_mwh": 14465680,
+          "generation_week_mwh": 15061004,
+          "interchange_week_mwh": 595325,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q2",
+          "interchange_avg_mwh_per_hour": 4012.4,
+          "demand_week_mwh": 12515964,
+          "generation_week_mwh": 12999043,
+          "interchange_week_mwh": 674087,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q3",
+          "interchange_avg_mwh_per_hour": 5773.8,
+          "demand_week_mwh": 17760286,
+          "generation_week_mwh": 18591210,
+          "interchange_week_mwh": 969992,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q4",
+          "interchange_avg_mwh_per_hour": 4299.6,
+          "demand_week_mwh": 12754395,
+          "generation_week_mwh": 13473010,
+          "interchange_week_mwh": 722338,
+          "hours_sampled": 168
+        }
+      ],
+      "note": "[ESTIMATE] Annualized from 4 quarterly week-long samples"
+    },
+    {
+      "year": 2021,
+      "est_annual_interchange_mwh": 34809831,
+      "avg_hourly_interchange_mwh": 3973.7,
+      "quarterly_samples": [
+        {
+          "quarter_sample": "Q1",
+          "interchange_avg_mwh_per_hour": 3646.9,
+          "demand_week_mwh": 16057696,
+          "generation_week_mwh": 16669336,
+          "interchange_week_mwh": 612685,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q2",
+          "interchange_avg_mwh_per_hour": 3322.4,
+          "demand_week_mwh": 12710098,
+          "generation_week_mwh": 13267693,
+          "interchange_week_mwh": 558169,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q3",
+          "interchange_avg_mwh_per_hour": 4423.6,
+          "demand_week_mwh": 17849252,
+          "generation_week_mwh": 18587417,
+          "interchange_week_mwh": 743170,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q4",
+          "interchange_avg_mwh_per_hour": 4502.0,
+          "demand_week_mwh": 14000112,
+          "generation_week_mwh": 14756360,
+          "interchange_week_mwh": 756344,
+          "hours_sampled": 168
+        }
+      ],
+      "note": "[ESTIMATE] Annualized from 4 quarterly week-long samples"
+    },
+    {
+      "year": 2022,
+      "est_annual_interchange_mwh": 26316573,
+      "avg_hourly_interchange_mwh": 3004.2,
+      "quarterly_samples": [
+        {
+          "quarter_sample": "Q1",
+          "interchange_avg_mwh_per_hour": 4172.4,
+          "demand_week_mwh": 17521963,
+          "generation_week_mwh": 18221496,
+          "interchange_week_mwh": 700963,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q2",
+          "interchange_avg_mwh_per_hour": 592.3,
+          "demand_week_mwh": 13186380,
+          "generation_week_mwh": 13285633,
+          "interchange_week_mwh": 99504,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q3",
+          "interchange_avg_mwh_per_hour": 4659.1,
+          "demand_week_mwh": 17289442,
+          "generation_week_mwh": 18071408,
+          "interchange_week_mwh": 782725,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q4",
+          "interchange_avg_mwh_per_hour": 2592.9,
+          "demand_week_mwh": 12957894,
+          "generation_week_mwh": 13392753,
+          "interchange_week_mwh": 435609,
+          "hours_sampled": 168
+        }
+      ],
+      "note": "[ESTIMATE] Annualized from 4 quarterly week-long samples"
+    },
+    {
+      "year": 2023,
+      "est_annual_interchange_mwh": 26905464,
+      "avg_hourly_interchange_mwh": 3071.4,
+      "quarterly_samples": [
+        {
+          "quarter_sample": "Q1",
+          "interchange_avg_mwh_per_hour": 2186.6,
+          "demand_week_mwh": 16249610,
+          "generation_week_mwh": 16616962,
+          "interchange_week_mwh": 367350,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q2",
+          "interchange_avg_mwh_per_hour": 2586.1,
+          "demand_week_mwh": 13393214,
+          "generation_week_mwh": 13826960,
+          "interchange_week_mwh": 434469,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q3",
+          "interchange_avg_mwh_per_hour": 5439.9,
+          "demand_week_mwh": 17991173,
+          "generation_week_mwh": 18905083,
+          "interchange_week_mwh": 913911,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q4",
+          "interchange_avg_mwh_per_hour": 2073.0,
+          "demand_week_mwh": 13062667,
+          "generation_week_mwh": 13410210,
+          "interchange_week_mwh": 348262,
+          "hours_sampled": 168
+        }
+      ],
+      "note": "[ESTIMATE] Annualized from 4 quarterly week-long samples"
+    },
+    {
+      "year": 2024,
+      "est_annual_interchange_mwh": 33089148,
+      "avg_hourly_interchange_mwh": 3777.3,
+      "quarterly_samples": [
+        {
+          "quarter_sample": "Q1",
+          "interchange_avg_mwh_per_hour": 7057.1,
+          "demand_week_mwh": 17115406,
+          "generation_week_mwh": 18300443,
+          "interchange_week_mwh": 1185596,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q2",
+          "interchange_avg_mwh_per_hour": 2178.3,
+          "demand_week_mwh": 13235662,
+          "generation_week_mwh": 13601611,
+          "interchange_week_mwh": 365954,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q3",
+          "interchange_avg_mwh_per_hour": 4209.8,
+          "demand_week_mwh": 19666215,
+          "generation_week_mwh": 20372795,
+          "interchange_week_mwh": 707250,
+          "hours_sampled": 168
+        },
+        {
+          "quarter_sample": "Q4",
+          "interchange_avg_mwh_per_hour": 1664.0,
+          "demand_week_mwh": 13177069,
+          "generation_week_mwh": 13455910,
+          "interchange_week_mwh": 279558,
+          "hours_sampled": 168
+        }
+      ],
+      "note": "[ESTIMATE] Annualized from 4 quarterly week-long samples"
+    },
+    {
+      "year": 2025,
+      "est_annual_interchange_mwh": 31736604,
+      "avg_hourly_interchange_mwh": 3622.9,
+      "quarterly_samples": [
+        {
+          "quarter_sample": "Q1",
+          "interchange_avg_mwh_per_hour": 3622.9,
+          "demand_week_mwh": 18882103,
+          "generation_week_mwh": 19489864,
+          "interchange_week_mwh": 608644,
+          "hours_sampled": 168
+        }
+      ],
+      "note": "[ESTIMATE] Annualized from 1 quarterly week-long samples"
+    }
+  ],
+  "neighbor_detail": [
+    {
+      "partner": "MISO",
+      "sample_period": "2024-07-10 to 2024-07-16",
+      "export_mwh": 837518,
+      "import_mwh": -574084,
+      "net_mwh": -1411602
+    },
+    {
+      "partner": "TVA",
+      "sample_period": "2024-07-10 to 2024-07-16",
+      "export_mwh": 22230,
+      "import_mwh": 70649,
+      "net_mwh": 48419
+    },
+    {
+      "partner": "CPLE",
+      "sample_period": "2024-07-10 to 2024-07-16",
+      "export_mwh": -67064,
+      "import_mwh": 84717,
+      "net_mwh": 151781
+    },
+    {
+      "partner": "DUK",
+      "sample_period": "2024-07-10 to 2024-07-16",
+      "export_mwh": -51528,
+      "import_mwh": 56382,
+      "net_mwh": 107910
+    },
+    {
+      "partner": "CPLW",
+      "sample_period": "2024-07-10 to 2024-07-16",
+      "export_mwh": 9690,
+      "import_mwh": -11600,
+      "net_mwh": -21290
+    },
+    {
+      "partner": "LGEE",
+      "sample_period": "2024-07-10 to 2024-07-16",
+      "export_mwh": -25277,
+      "import_mwh": -2025,
+      "net_mwh": 23252
+    },
+    {
+      "partner": "NYIS",
+      "sample_period": "2024-07-10 to 2024-07-16",
+      "export_mwh": 238027,
+      "import_mwh": -344844,
+      "net_mwh": -582871
+    }
+  ]
+}

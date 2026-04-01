@@ -1,0 +1,909 @@
+{
+  "source_url": "https://api.eia.gov/v2/electricity/facility-fuel",
+  "source_description": "EIA Form 923 \u2014 Net generation by energy source, annual, for PJM states (PA, NJ, DE, MD, VA, WV, OH, IN, IL, MI, KY, NC, TN, DC)",
+  "access_date": "2026-03-29",
+  "jurisdiction": "PJM-adjacent states (includes non-PJM portions of partial states)",
+  "citation": "U.S. Energy Information Administration. 'Electric Power Operations for Individual Power Plants.' Form EIA-923. Accessed March 29, 2026.",
+  "known_gaps": [
+    "Data covers full states, not just PJM portions. IL, MI, IN, KY, NC, TN include non-PJM generation. This overstates PJM totals for partial states.",
+    "2024 data may be preliminary depending on EIA release schedule.",
+    "Plant-level fuel codes aggregated to categories \u2014 see FUEL_MAP in source script."
+  ],
+  "notes": "Generation in MWh. Negative values indicate net consumption (e.g., pumped storage). State-level aggregation is an approximation of PJM footprint. For precise PJM-only totals, spatial clipping at the plant level would be needed.",
+  "units": "MWh",
+  "summary_by_year": {
+    "2020": {
+      "Biomass": 11691297,
+      "Coal": 312433723,
+      "Hydro": 33565322,
+      "Natural Gas": 452360372,
+      "Nuclear": 376294859,
+      "Other": 5849756,
+      "Other Gas": 5173803,
+      "Petroleum": 3108484,
+      "Solar": 12784596,
+      "Storage": -71004,
+      "Wind": 38331376
+    },
+    "2021": {
+      "Biomass": 11294946,
+      "Coal": 367397166,
+      "Hydro": 29132194,
+      "Natural Gas": 440842392,
+      "Nuclear": 374873662,
+      "Other": 5737882,
+      "Other Gas": 5358597,
+      "Petroleum": 3552695,
+      "Solar": 18057500,
+      "Storage": -63658,
+      "Wind": 43449434
+    },
+    "2022": {
+      "Biomass": 10647523,
+      "Coal": 330266047,
+      "Hydro": 24276187,
+      "Natural Gas": 485954056,
+      "Nuclear": 367482249,
+      "Other": 5250301,
+      "Other Gas": 5240755,
+      "Petroleum": 4992190,
+      "Solar": 23568888,
+      "Storage": -61111,
+      "Wind": 52499423
+    },
+    "2023": {
+      "Biomass": 9514355,
+      "Coal": 256552005,
+      "Hydro": 22314721,
+      "Natural Gas": 524121024,
+      "Nuclear": 370322112,
+      "Other": 5361083,
+      "Other Gas": 5637781,
+      "Petroleum": 3216528,
+      "Solar": 27337691,
+      "Storage": -61415,
+      "Wind": 48208151
+    },
+    "2024": {
+      "Biomass": 9015471,
+      "Coal": 262813511,
+      "Hydro": 22944245,
+      "Natural Gas": 554696205,
+      "Nuclear": 365725573,
+      "Other": 5141316,
+      "Other Gas": 5075409,
+      "Petroleum": 3782709,
+      "Solar": 36144279,
+      "Storage": -71322,
+      "Wind": 54030254
+    }
+  },
+  "state_detail": {
+    "PA": {
+      "2024": {
+        "Petroleum": 79919,
+        "Natural Gas": 143909466,
+        "Coal": 13041571,
+        "Hydro": 1811980,
+        "Other": 1594357,
+        "Nuclear": 75404472,
+        "Biomass": 778105,
+        "Other Gas": 542177,
+        "Storage": -17976,
+        "Wind": 3256555,
+        "Solar": 1090971
+      },
+      "2023": {
+        "Petroleum": 45307,
+        "Natural Gas": 139251509,
+        "Coal": 12834828,
+        "Hydro": 1878545,
+        "Other": 1628164,
+        "Nuclear": 75304581,
+        "Biomass": 801969,
+        "Other Gas": 577524,
+        "Storage": -20854,
+        "Wind": 3258324,
+        "Solar": 352750
+      },
+      "2022": {
+        "Petroleum": 309628,
+        "Natural Gas": 130163549,
+        "Coal": 23929783,
+        "Hydro": 1910869,
+        "Other": 1559899,
+        "Nuclear": 76166017,
+        "Biomass": 900265,
+        "Other Gas": 532586,
+        "Storage": -21153,
+        "Wind": 3572245,
+        "Solar": 237442
+      },
+      "2021": {
+        "Petroleum": 122013,
+        "Natural Gas": 126664878,
+        "Coal": 29247948,
+        "Hydro": 2443405,
+        "Other": 1676759,
+        "Nuclear": 75902514,
+        "Biomass": 1012620,
+        "Other Gas": 550684,
+        "Storage": -19886,
+        "Wind": 3455169,
+        "Solar": 223504
+      },
+      "2020": {
+        "Petroleum": 64056,
+        "Natural Gas": 120758534,
+        "Coal": 23458271,
+        "Hydro": 2078198,
+        "Other": 1636917,
+        "Nuclear": 76521394,
+        "Biomass": 1173282,
+        "Other Gas": 576233,
+        "Storage": -19635,
+        "Wind": 3748207,
+        "Solar": 139497
+      }
+    },
+    "NJ": {
+      "2024": {
+        "Petroleum": 30973,
+        "Natural Gas": 29638495,
+        "Nuclear": 27676781,
+        "Coal": 0,
+        "Hydro": -228252,
+        "Solar": 1550826,
+        "Other": 1079659,
+        "Other Gas": 167836,
+        "Biomass": 190220,
+        "Wind": 19390,
+        "Storage": -19870
+      },
+      "2023": {
+        "Petroleum": 41849,
+        "Natural Gas": 33045872,
+        "Nuclear": 28335474,
+        "Coal": 0,
+        "Hydro": -153600,
+        "Solar": 1534829,
+        "Other": 1011787,
+        "Other Gas": 161367,
+        "Biomass": 210904,
+        "Wind": 18438,
+        "Storage": -11875
+      },
+      "2022": {
+        "Petroleum": 128500,
+        "Natural Gas": 33384824,
+        "Nuclear": 28318800,
+        "Coal": 497783,
+        "Hydro": -130628,
+        "Solar": 1518495,
+        "Other": 971684,
+        "Other Gas": 119861,
+        "Biomass": 220144,
+        "Wind": 21629,
+        "Storage": -11961
+      },
+      "2021": {
+        "Petroleum": 19944,
+        "Natural Gas": 29542815,
+        "Nuclear": 28142099,
+        "Coal": 1026294,
+        "Hydro": -101853,
+        "Solar": 1374535,
+        "Other": 1089038,
+        "Other Gas": 91971,
+        "Biomass": 227854,
+        "Wind": 19729,
+        "Storage": -10629
+      },
+      "2020": {
+        "Petroleum": 66592,
+        "Natural Gas": 30630982,
+        "Nuclear": 26738258,
+        "Coal": 916718,
+        "Hydro": -94549,
+        "Solar": 1305029,
+        "Other": 1061851,
+        "Other Gas": 197096,
+        "Biomass": 276717,
+        "Wind": 20014,
+        "Storage": -12250
+      }
+    },
+    "DE": {
+      "2024": {
+        "Petroleum": 18456,
+        "Natural Gas": 4205666,
+        "Coal": 143875,
+        "Other Gas": 221116,
+        "Biomass": 41685,
+        "Wind": 2632,
+        "Solar": 165782
+      },
+      "2023": {
+        "Petroleum": -1891,
+        "Natural Gas": 4382640,
+        "Coal": -6498,
+        "Other Gas": 172094,
+        "Biomass": 66300,
+        "Wind": 4165,
+        "Solar": 155249
+      },
+      "2022": {
+        "Petroleum": 108258,
+        "Natural Gas": 4749645,
+        "Coal": 104750,
+        "Other Gas": 198489,
+        "Biomass": 78973,
+        "Wind": 4377,
+        "Solar": 63878
+      },
+      "2021": {
+        "Petroleum": 16747,
+        "Natural Gas": 3734203,
+        "Coal": 276729,
+        "Other Gas": 141823,
+        "Biomass": 73648,
+        "Wind": 4849,
+        "Solar": 57126
+      },
+      "2020": {
+        "Petroleum": 8061,
+        "Natural Gas": 4818094,
+        "Coal": 102274,
+        "Other Gas": 145549,
+        "Biomass": 72042,
+        "Wind": 5179,
+        "Solar": 54173
+      }
+    },
+    "MD": {
+      "2024": {
+        "Coal": 2465722,
+        "Petroleum": 211517,
+        "Natural Gas": 13884394,
+        "Hydro": 1848233,
+        "Nuclear": 14724068,
+        "Other": 617173,
+        "Biomass": 54793,
+        "Wind": 558320,
+        "Solar": 1030837,
+        "Storage": -1502
+      },
+      "2023": {
+        "Coal": 1708970,
+        "Petroleum": 64236,
+        "Natural Gas": 15329718,
+        "Hydro": 1849088,
+        "Nuclear": 14983751,
+        "Other": 568897,
+        "Biomass": 65794,
+        "Wind": 481526,
+        "Solar": 935737,
+        "Storage": -583
+      },
+      "2022": {
+        "Coal": 4639314,
+        "Petroleum": 142840,
+        "Natural Gas": 13944394,
+        "Hydro": 1779682,
+        "Nuclear": 14810684,
+        "Other": 538085,
+        "Biomass": 70330,
+        "Wind": 497608,
+        "Solar": 713532,
+        "Storage": -2375
+      },
+      "2021": {
+        "Coal": 5173979,
+        "Petroleum": 71814,
+        "Natural Gas": 13909607,
+        "Hydro": 2117149,
+        "Nuclear": 14993633,
+        "Other": 687900,
+        "Biomass": 65283,
+        "Wind": 517431,
+        "Solar": 632049,
+        "Storage": -2127
+      },
+      "2020": {
+        "Coal": 3359560,
+        "Petroleum": 69226,
+        "Natural Gas": 14071808,
+        "Hydro": 1696803,
+        "Nuclear": 15080557,
+        "Other": 585657,
+        "Biomass": 73828,
+        "Wind": 537002,
+        "Solar": 526162,
+        "Storage": -2270
+      }
+    },
+    "VA": {
+      "2024": {
+        "Hydro": -294503,
+        "Coal": 1972109,
+        "Petroleum": 204685,
+        "Natural Gas": 60998078,
+        "Nuclear": 28945327,
+        "Biomass": 3028931,
+        "Other": 787048,
+        "Solar": 6998366,
+        "Wind": 50260,
+        "Storage": -6741
+      },
+      "2023": {
+        "Hydro": -77115,
+        "Coal": 1415027,
+        "Petroleum": 134545,
+        "Natural Gas": 50604694,
+        "Nuclear": 29662935,
+        "Biomass": 2961360,
+        "Other": 878281,
+        "Solar": 5398921,
+        "Wind": 46969,
+        "Storage": -1513
+      },
+      "2022": {
+        "Hydro": -364706,
+        "Coal": 3346073,
+        "Petroleum": 651867,
+        "Natural Gas": 48801987,
+        "Nuclear": 28197337,
+        "Biomass": 3209128,
+        "Other": 959109,
+        "Solar": 4625769,
+        "Wind": 50852,
+        "Storage": -91
+      },
+      "2021": {
+        "Hydro": 267022,
+        "Coal": 3015489,
+        "Petroleum": 338987,
+        "Natural Gas": 53487165,
+        "Nuclear": 28571516,
+        "Biomass": 3154951,
+        "Other": 967084,
+        "Solar": 3251473,
+        "Wind": 49583
+      },
+      "2020": {
+        "Hydro": 950638,
+        "Coal": 3762795,
+        "Petroleum": 227377,
+        "Natural Gas": 62370311,
+        "Nuclear": 30140054,
+        "Biomass": 2954997,
+        "Other": 1022660,
+        "Solar": 1371023
+      }
+    },
+    "WV": {
+      "2024": {
+        "Coal": 43097869,
+        "Petroleum": 124686,
+        "Natural Gas": 3782254,
+        "Other": 102,
+        "Hydro": 1361332,
+        "Other Gas": 39917,
+        "Wind": 2002848,
+        "Storage": -7623,
+        "Biomass": 7618,
+        "Solar": 185815
+      },
+      "2023": {
+        "Coal": 44797570,
+        "Petroleum": 162735,
+        "Natural Gas": 3679658,
+        "Other": 91,
+        "Hydro": 1530183,
+        "Other Gas": 31968,
+        "Wind": 2089439,
+        "Storage": -13947,
+        "Biomass": 9088
+      },
+      "2022": {
+        "Coal": 50717502,
+        "Petroleum": 150229,
+        "Natural Gas": 2110475,
+        "Other": 136,
+        "Hydro": 1647262,
+        "Other Gas": 35002,
+        "Wind": 2006895,
+        "Storage": -12343,
+        "Biomass": 10202
+      },
+      "2021": {
+        "Coal": 59667589,
+        "Petroleum": 167043,
+        "Natural Gas": 2625675,
+        "Other": 155,
+        "Hydro": 1704564,
+        "Other Gas": 53005,
+        "Wind": 1624136,
+        "Storage": -16271,
+        "Biomass": 10166
+      },
+      "2020": {
+        "Coal": 50216398,
+        "Petroleum": 142290,
+        "Natural Gas": 2776673,
+        "Other": 117,
+        "Hydro": 1592025,
+        "Other Gas": 46561,
+        "Wind": 1897803,
+        "Storage": -16791,
+        "Biomass": 6457
+      }
+    },
+    "OH": {
+      "2024": {
+        "Coal": 30079964,
+        "Petroleum": 1142549,
+        "Storage": -5036,
+        "Natural Gas": 84345476,
+        "Solar": 3998523,
+        "Hydro": 450534,
+        "Nuclear": 17946987,
+        "Other": 5677,
+        "Biomass": 279453,
+        "Other Gas": 856210,
+        "Wind": 2821711
+      },
+      "2023": {
+        "Coal": 31363276,
+        "Petroleum": 1049332,
+        "Storage": -2194,
+        "Natural Gas": 78692837,
+        "Solar": 1382272,
+        "Hydro": 489987,
+        "Nuclear": 16206640,
+        "Other": 8239,
+        "Biomass": 323962,
+        "Other Gas": 787419,
+        "Wind": 2819321
+      },
+      "2022": {
+        "Coal": 42992712,
+        "Petroleum": 1272605,
+        "Storage": -4986,
+        "Natural Gas": 68864969,
+        "Solar": 913273,
+        "Hydro": 506973,
+        "Nuclear": 16826787,
+        "Other": 7977,
+        "Biomass": 530151,
+        "Other Gas": 738277,
+        "Wind": 3154007
+      },
+      "2021": {
+        "Coal": 45662048,
+        "Petroleum": 1125002,
+        "Storage": -4891,
+        "Natural Gas": 56054277,
+        "Solar": 660921,
+        "Hydro": 578290,
+        "Nuclear": 17483009,
+        "Other": 8131,
+        "Biomass": 642822,
+        "Other Gas": 812827,
+        "Wind": 2586756
+      },
+      "2020": {
+        "Coal": 45008596,
+        "Petroleum": 1174405,
+        "Storage": -5496,
+        "Natural Gas": 52381593,
+        "Solar": 163611,
+        "Hydro": 374222,
+        "Nuclear": 18219025,
+        "Other": 10054,
+        "Biomass": 673765,
+        "Other Gas": 703820,
+        "Wind": 2289139
+      }
+    },
+    "IN": {
+      "2024": {
+        "Coal": 40207064,
+        "Petroleum": 119676,
+        "Hydro": 375251,
+        "Storage": -2006,
+        "Natural Gas": 39857410,
+        "Other Gas": 2113524,
+        "Other": 433731,
+        "Biomass": 182964,
+        "Wind": 10083906,
+        "Solar": 3091430
+      },
+      "2023": {
+        "Coal": 40931630,
+        "Petroleum": 96718,
+        "Hydro": 463654,
+        "Storage": -28,
+        "Natural Gas": 34849282,
+        "Biomass": 254012,
+        "Other Gas": 2271502,
+        "Other": 481609,
+        "Wind": 8844478,
+        "Solar": 1839013
+      },
+      "2022": {
+        "Coal": 51384115,
+        "Petroleum": 113606,
+        "Hydro": 370827,
+        "Storage": -369,
+        "Natural Gas": 32088360,
+        "Biomass": 375889,
+        "Other Gas": 2144536,
+        "Other": 477719,
+        "Wind": 9985205,
+        "Solar": 1082280
+      },
+      "2021": {
+        "Coal": 54447943,
+        "Petroleum": 127751,
+        "Hydro": 387030,
+        "Storage": -115,
+        "Natural Gas": 27599551,
+        "Biomass": 410294,
+        "Other Gas": 2254362,
+        "Other": 508176,
+        "Wind": 7818917,
+        "Solar": 572757
+      },
+      "2020": {
+        "Coal": 47772885,
+        "Petroleum": 113473,
+        "Hydro": 270739,
+        "Storage": -55,
+        "Natural Gas": 32084576,
+        "Biomass": 427742,
+        "Other Gas": 2239949,
+        "Other": 517369,
+        "Wind": 6287548,
+        "Solar": 358062
+      }
+    },
+    "IL": {
+      "2024": {
+        "Nuclear": 99211858,
+        "Natural Gas": 30107530,
+        "Coal": 26965456,
+        "Petroleum": 20671,
+        "Other": 238647,
+        "Hydro": 74896,
+        "Solar": 3043143,
+        "Wind": 24852475,
+        "Biomass": 224361,
+        "Other Gas": 177044,
+        "Storage": -5085
+      },
+      "2023": {
+        "Nuclear": 97559460,
+        "Natural Gas": 28416900,
+        "Coal": 27149579,
+        "Petroleum": 26243,
+        "Other": 265290,
+        "Hydro": 92063,
+        "Solar": 1891577,
+        "Wind": 21807967,
+        "Biomass": 242251,
+        "Other Gas": 248088,
+        "Storage": -9131
+      },
+      "2022": {
+        "Nuclear": 98869581,
+        "Natural Gas": 19789291,
+        "Coal": 40559217,
+        "Petroleum": 37550,
+        "Other": 270203,
+        "Hydro": 115235,
+        "Solar": 1548365,
+        "Wind": 23493806,
+        "Biomass": 282709,
+        "Other Gas": 238801,
+        "Storage": -7208
+      },
+      "2021": {
+        "Nuclear": 96994458,
+        "Natural Gas": 20649068,
+        "Coal": 43298080,
+        "Petroleum": 53793,
+        "Other": 262333,
+        "Hydro": 128565,
+        "Solar": 499548,
+        "Wind": 19133088,
+        "Biomass": 364454,
+        "Other Gas": 241516,
+        "Storage": -16422
+      },
+      "2020": {
+        "Nuclear": 100246068,
+        "Natural Gas": 24499068,
+        "Coal": 31198322,
+        "Petroleum": 30268,
+        "Other": 263002,
+        "Hydro": 134981,
+        "Solar": 78743,
+        "Wind": 16225940,
+        "Biomass": 391023,
+        "Other Gas": 284672,
+        "Storage": -14381
+      }
+    },
+    "MI": {
+      "2024": {
+        "Hydro": 273718,
+        "Coal": 25738090,
+        "Petroleum": 1493574,
+        "Natural Gas": 54950005,
+        "Nuclear": 26280776,
+        "Other": 137760,
+        "Biomass": 1861813,
+        "Other Gas": 946060,
+        "Wind": 9838928,
+        "Solar": 1859352,
+        "Storage": -93
+      },
+      "2023": {
+        "Hydro": 580196,
+        "Coal": 23554515,
+        "Petroleum": 1350492,
+        "Natural Gas": 54068082,
+        "Nuclear": 27996108,
+        "Other": 180516,
+        "Biomass": 1980615,
+        "Other Gas": 1376972,
+        "Wind": 8292415,
+        "Solar": 1268692,
+        "Storage": -101
+      },
+      "2022": {
+        "Hydro": 517793,
+        "Coal": 34482187,
+        "Petroleum": 1554770,
+        "Natural Gas": 40409708,
+        "Nuclear": 26013361,
+        "Other": 191107,
+        "Biomass": 2213982,
+        "Other Gas": 1221722,
+        "Wind": 9151179,
+        "Solar": 859379,
+        "Storage": -57
+      },
+      "2021": {
+        "Hydro": 624618,
+        "Coal": 37053903,
+        "Petroleum": 1145703,
+        "Natural Gas": 30496824,
+        "Nuclear": 34338319,
+        "Other Gas": 1201754,
+        "Other": 168695,
+        "Biomass": 2150993,
+        "Wind": 7696887,
+        "Solar": 421477,
+        "Storage": -83
+      },
+      "2020": {
+        "Hydro": 867861,
+        "Coal": 27961029,
+        "Petroleum": 931012,
+        "Natural Gas": 36433839,
+        "Nuclear": 30332546,
+        "Other Gas": 968649,
+        "Other": 185048,
+        "Biomass": 2054556,
+        "Wind": 6735092,
+        "Solar": 155168,
+        "Storage": -79
+      }
+    },
+    "KY": {
+      "2024": {
+        "Petroleum": 58083,
+        "Natural Gas": 17267337,
+        "Hydro": 4113686,
+        "Coal": 44829322,
+        "Solar": 275042,
+        "Other": 11737,
+        "Biomass": 394041
+      },
+      "2023": {
+        "Petroleum": 61135,
+        "Natural Gas": 14932901,
+        "Hydro": 3954668,
+        "Coal": 42805601,
+        "Solar": 154770,
+        "Other": 91123,
+        "Biomass": 417759
+      },
+      "2022": {
+        "Petroleum": 97953,
+        "Natural Gas": 16917627,
+        "Hydro": 4529831,
+        "Coal": 47053327,
+        "Solar": 46853,
+        "Other": 54173,
+        "Biomass": 447169
+      },
+      "2021": {
+        "Petroleum": 66090,
+        "Natural Gas": 14571980,
+        "Hydro": 4876457,
+        "Coal": 49862729,
+        "Solar": 42392,
+        "Other": 70430,
+        "Biomass": 414736
+      },
+      "2020": {
+        "Coal": 43638313,
+        "Petroleum": 57178,
+        "Natural Gas": 14358500,
+        "Hydro": 5005493,
+        "Solar": 42832,
+        "Other": 64206,
+        "Biomass": 347311
+      }
+    },
+    "NC": {
+      "2024": {
+        "Petroleum": 156733,
+        "Storage": -5390,
+        "Natural Gas": 55167095,
+        "Solar": 11719624,
+        "Coal": 16837601,
+        "Hydro": 4816791,
+        "Nuclear": 43349344,
+        "Biomass": 1454140,
+        "Other": 225100,
+        "Wind": 530043
+      },
+      "2023": {
+        "Petroleum": 84102,
+        "Storage": -1189,
+        "Natural Gas": 51784572,
+        "Solar": 11437802,
+        "Hydro": 4219283,
+        "Coal": 14204599,
+        "Nuclear": 42335726,
+        "Biomass": 1680285,
+        "Other": 236604,
+        "Wind": 528896
+      },
+      "2022": {
+        "Petroleum": 277751,
+        "Storage": -568,
+        "Natural Gas": 58131396,
+        "Solar": 11260397,
+        "Hydro": 4686291,
+        "Coal": 14673743,
+        "Nuclear": 42644282,
+        "Biomass": 1824874,
+        "Other": 208620,
+        "Wind": 546755
+      },
+      "2021": {
+        "Petroleum": 194702,
+        "Storage": 6766,
+        "Natural Gas": 47409893,
+        "Solar": 9964873,
+        "Hydro": 5812758,
+        "Coal": 20404638,
+        "Nuclear": 43117707,
+        "Other": 281754,
+        "Biomass": 2022502,
+        "Wind": 514703
+      },
+      "2020": {
+        "Petroleum": 116591,
+        "Natural Gas": 41401321,
+        "Coal": 20793289,
+        "Hydro": 7957492,
+        "Nuclear": 42328762,
+        "Storage": -47,
+        "Other": 484926,
+        "Biomass": 2452715,
+        "Solar": 8252949,
+        "Wind": 546267
+      }
+    },
+    "TN": {
+      "2024": {
+        "Petroleum": 121153,
+        "Natural Gas": 16483405,
+        "Hydro": 8340579,
+        "Coal": 17434868,
+        "Nuclear": 32185960,
+        "Wind": 13186,
+        "Biomass": 461431,
+        "Other": 10326,
+        "Other Gas": 11525,
+        "Solar": 1104334
+      },
+      "2023": {
+        "Petroleum": 101671,
+        "Natural Gas": 14993150,
+        "Hydro": 7487769,
+        "Coal": 15792909,
+        "Nuclear": 37937437,
+        "Wind": 16213,
+        "Biomass": 442043,
+        "Other": 10483,
+        "Other Gas": 10847,
+        "Solar": 961486
+      },
+      "2022": {
+        "Petroleum": 146614,
+        "Natural Gas": 16517558,
+        "Hydro": 8706758,
+        "Coal": 15885540,
+        "Nuclear": 35635400,
+        "Wind": 14865,
+        "Biomass": 426008,
+        "Other": 11590,
+        "Other Gas": 11481,
+        "Solar": 676977
+      },
+      "2021": {
+        "Petroleum": 103066,
+        "Natural Gas": 13986006,
+        "Hydro": 10294189,
+        "Coal": 18259796,
+        "Nuclear": 35330407,
+        "Wind": 28186,
+        "Biomass": 688903,
+        "Other": 17426,
+        "Other Gas": 10654,
+        "Solar": 338576
+      },
+      "2020": {
+        "Petroleum": 107933,
+        "Natural Gas": 15668120,
+        "Hydro": 12731419,
+        "Coal": 14245272,
+        "Nuclear": 36688195,
+        "Wind": 39185,
+        "Biomass": 732010,
+        "Other": 17949,
+        "Other Gas": 11275,
+        "Solar": 324652
+      }
+    },
+    "DC": {
+      "2024": {
+        "Petroleum": 35,
+        "Natural Gas": 99595,
+        "Biomass": 55918,
+        "Solar": 30233
+      },
+      "2023": {
+        "Petroleum": 54,
+        "Natural Gas": 89210,
+        "Biomass": 58012,
+        "Solar": 24594
+      },
+      "2022": {
+        "Petroleum": 18,
+        "Natural Gas": 80272,
+        "Biomass": 57699,
+        "Solar": 22248
+      },
+      "2021": {
+        "Petroleum": 38,
+        "Natural Gas": 110451,
+        "Biomass": 55721,
+        "Solar": 18269
+      },
+      "2020": {
+        "Petroleum": 21,
+        "Natural Gas": 106953,
+        "Biomass": 54852,
+        "Solar": 12695
+      }
+    }
+  }
+}

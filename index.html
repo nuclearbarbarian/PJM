@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PJM Power System: 2020–2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Playfair+Display:wght@700&family=Source+Serif+4:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js" defer></script>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+<style>
+
+:root {
+  --color-ink: #1A1A1A;
+  --color-newsprint: #F5F2E8;
+  --color-paper: #FDFCF9;
+  --color-warm-gray: #9C9788;
+  --color-blue: #2B4B6F;
+  --color-red: #8B2B2B;
+  --color-green: #3D5C3D;
+  --color-yellow: #C4A035;
+  --font-serif: 'Source Serif 4', 'Charter', 'Georgia', serif;
+  --font-display: 'Playfair Display', 'Charter', 'Georgia', serif;
+  --font-mono: 'IBM Plex Mono', 'Consolas', monospace;
+  --sidebar-width: 340px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--color-newsprint);
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  overflow: hidden;
+}
+
+.explorer {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.explorer-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--color-newsprint);
+  border-right: 2px solid var(--color-ink);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: margin-left 0.2s ease;
+  z-index: 10;
+}
+
+.sidebar.collapsed { margin-left: calc(-1 * var(--sidebar-width)); }
+
+.site-header {
+  padding: 14px 24px 10px;
+  background: #2A2A2A;
+  border-bottom: 2px solid var(--color-ink);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-text { flex: 1; }
+
+.header-logos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logos img {
+  height: 44px;
+  width: auto;
+  opacity: 0.9;
+}
+
+.explorer-title {
+  font-family: var(--font-display);
+  font-size: 17pt;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  color: var(--color-newsprint);
+}
+
+.explorer-subtitle {
+  font-style: italic;
+  font-size: 10pt;
+  color: var(--color-warm-gray);
+}
+
+.sidebar-section {
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--color-warm-gray);
+}
+
+.section-header {
+  font-family: var(--font-mono);
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: var(--color-ink);
+}
+
+/* ── Layer toggles ───────────────────────────────────────── */
+.layer-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 10pt;
+}
+
+.layer-toggle input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--color-ink);
+  background: var(--color-paper);
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.layer-toggle input[type="checkbox"]:checked { background: var(--color-ink); }
+
+.layer-toggle input[type="checkbox"]:checked::after {
+  content: '\2713';
+  color: var(--color-paper);
+  font-size: 10px;
+  position: absolute;
+  top: -1px;
+  left: 1px;
+}
+
+/* ── Filters ─────────────────────────────────────────────── */
+.filter-group { margin-bottom: 10px; }
+
+.filter-label {
+  font-family: var(--font-mono);
+  font-size: 8pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+  color: var(--color-warm-gray);
+}
+
+.filter-select {
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid var(--color-ink);
+  background: var(--color-paper);
+  font-family: var(--font-serif);
+  font-size: 10pt;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* ── Legend ───────────────────────────────────────────────── */
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+  font-size: 9pt;
+}
+
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border: 0.5px solid var(--color-ink);
+  flex-shrink: 0;
+}
+
+.legend-swatch.circle { border-radius: 50%; }
+
+.legend-title {
+  font-family: var(--font-mono);
+  font-size: 8pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  margin-top: 10px;
+  color: var(--color-warm-gray);
+}
+
+/* ── Dashboard panels ────────────────────────────────────── */
+.dash-panel {
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--color-warm-gray);
+}
+
+.dash-panel-title {
+  font-family: var(--font-mono);
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.dash-chart {
+  width: 100%;
+  height: 120px;
+  position: relative;
+}
+
+.dash-kpi {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.kpi-card {
+  flex: 1;
+  text-align: center;
+  padding: 8px 4px;
+  border: 1px solid var(--color-warm-gray);
+  background: var(--color-paper);
+}
+
+.kpi-value {
+  font-family: var(--font-mono);
+  font-size: 14pt;
+  font-weight: 700;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  text-transform: uppercase;
+  color: var(--color-warm-gray);
+  letter-spacing: 0.05em;
+}
+
+.dash-source {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  color: var(--color-warm-gray);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.flag-estimate {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  color: var(--color-red);
+  font-weight: 700;
+}
+
+/* ── Bar chart (SVG-based) ───────────────────────────────── */
+.bar-chart { width: 100%; }
+
+/* ── Map area ────────────────────────────────────────────── */
+.map-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.map-container { flex: 1; }
+
+.sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  width: 28px;
+  height: 28px;
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-ink);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink);
+  line-height: 1;
+}
+
+.sidebar-toggle:hover { background: var(--color-newsprint); }
+
+.source-bar {
+  padding: 6px 16px;
+  border-top: 1px solid var(--color-ink);
+  background: var(--color-newsprint);
+  display: flex;
+  justify-content: space-between;
+  font-style: italic;
+  font-size: 9pt;
+  color: var(--color-warm-gray);
+}
+
+/* ── MapLibre popup override ─────────────────────────────── */
+.maplibregl-popup-content {
+  background: var(--color-paper) !important;
+  border: 1.5px solid var(--color-ink) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  font-family: var(--font-serif) !important;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1) !important;
+  max-width: 320px !important;
+}
+
+.maplibregl-popup-close-button {
+  font-size: 16px !important;
+  color: var(--color-ink) !important;
+  padding: 2px 6px !important;
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color: var(--color-ink) !important; }
+.maplibregl-popup-anchor-top .maplibregl-popup-tip { border-bottom-color: var(--color-ink) !important; }
+.maplibregl-popup-anchor-left .maplibregl-popup-tip { border-right-color: var(--color-ink) !important; }
+.maplibregl-popup-anchor-right .maplibregl-popup-tip { border-left-color: var(--color-ink) !important; }
+
+.popup-header {
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 9pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--color-ink);
+  background: var(--color-newsprint);
+}
+
+.popup-body { padding: 8px 12px; }
+
+.popup-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0;
+  font-size: 9pt;
+  border-bottom: 0.5px solid #e8e6e2;
+}
+
+.popup-row:last-child { border-bottom: none; }
+
+.popup-field {
+  color: var(--color-warm-gray);
+  font-family: var(--font-mono);
+  font-size: 8pt;
+  text-transform: uppercase;
+}
+
+.popup-value {
+  font-family: var(--font-mono);
+  font-size: 9pt;
+  text-align: right;
+}
+
+</style>
+</head>
+<body>
+
+<div class="explorer">
+  <div class="site-header">
+    <div class="header-text">
+      <h1 class="explorer-title">PJM Power System</h1>
+      <div class="explorer-subtitle">An interactive atlas, 2020–2026 (beta)</div>
+    </div>
+    <div class="header-logos">
+      <img src="img/nb-logo.png" alt="Nuclear Barbarians">
+      <img src="img/fai-logo.svg" alt="Foundation for American Innovation">
+    </div>
+  </div>
+  <div class="explorer-body">
+  <div class="sidebar" id="sidebar">
+
+    <!-- About -->
+    <div class="sidebar-section">
+      <details>
+        <summary class="section-header" style="cursor:pointer; list-style:none;">About this map ▸</summary>
+        <div style="font-size:9pt; line-height:1.5; margin-top:8px; color:var(--color-ink);">
+          <p><strong>PJM Interconnection</strong> is the regional transmission organization coordinating the electric grid across 13 states and D.C., serving 65 million people from Illinois to New Jersey.</p>
+          <p style="margin-top:6px;">This dashboard tracks PJM's power system transformation from 2020 to 2026: the interconnection queue explosion, capacity market stress, data center demand growth, shifting resource mix, and regional import/export dynamics.</p>
+          <p style="margin-top:6px; font-family:var(--font-mono); font-size:8pt; color:var(--color-warm-gray);">
+            <strong>Data sources:</strong> HIFLD (plants, transmission, boundary), EIA Forms 923 &amp; 930 (generation, interchange), PJM public queue exports (interconnection queue), PJM RTEP project list (cross-reference for planned routes), NERC LTRA (reserve margins), PJM RPM BRA reports (capacity prices), IM3 Open Source Data Center Atlas/PNNL (data centers, DOI: 10.57931/2550666, ~80% coverage pre-2024), Piedmont Environmental Council/ArcGIS Online (planned RTEP route geometries, NIETC corridor boundary).
+          </p>
+          <p style="margin-top:6px; font-family:var(--font-mono); font-size:8pt; color:var(--color-warm-gray);">
+            <strong>Known limitations:</strong> Plant locations from HIFLD may lag 6–12 months. Queue data shown in charts/KPIs only — not mapped due to geocoding imprecision (county centroids fall outside PJM zones in partial-coverage states). Generation totals use full-state EIA data, which overcounts for states only partially in PJM. Data centers from IM3/PNNL atlas (DOI: 10.57931/2550666) — peer-reviewed post-processing of OSM, ~80% complete for pre-2024 major facilities (CoreWeave, Yondr absent). Includes sqft for building-layer facilities but no MW power data. RTEP routes are PEC digitizations from developer filings — 7 of 25 proposals confirmed against PJM's official RTEP project list; PJM does not publish route GIS (CEII). NIETC corridor is PEC's interpretation of DOE preliminary maps — DOE has not published official GIS for the Mid-Atlantic corridor. Reserve margin projections read from NERC charts, not official tables.
+          </p>
+          <p style="margin-top:6px; font-family:var(--font-mono); font-size:8pt; color:var(--color-red);">
+            Flags: <strong>[VERIFY]</strong> = third-party digitization, cross-checked where possible. <strong>[ESTIMATE]</strong> = projected or annualized. <strong>[GAP]</strong> = known incomplete source with coverage estimate.
+          </p>
+        </div>
+      </details>
+    </div>
+
+    <!-- Layers -->
+    <div class="sidebar-section">
+      <div class="section-header">Layers</div>
+      <label class="layer-toggle">
+        <input type="checkbox" id="toggle-plants" checked> Power Plants
+      </label>
+      <!-- Queue data used in charts/KPIs only — not mapped (county centroids too imprecise) -->
+      <label class="layer-toggle">
+        <input type="checkbox" id="toggle-datacenters"> Data Centers
+      </label>
+      <label class="layer-toggle">
+        <input type="checkbox" id="toggle-transmission"> Transmission (345kV+)
+      </label>
+      <label class="layer-toggle">
+        <input type="checkbox" id="toggle-planned-tx"> Planned Routes (RTEP)
+      </label>
+      <label class="layer-toggle">
+        <input type="checkbox" id="toggle-nietc"> NIETC Corridor (DOE)
+      </label>
+    </div>
+
+    <!-- Filters -->
+    <div class="sidebar-section">
+      <div class="section-header">Filter</div>
+      <div class="filter-group">
+        <div class="filter-label">Plant fuel type</div>
+        <select class="filter-select" id="filter-fuel">
+          <option value="all">All Fuels</option>
+          <option value="Natural Gas">Natural Gas</option>
+          <option value="Coal">Coal</option>
+          <option value="Nuclear">Nuclear</option>
+          <option value="Solar">Solar</option>
+          <option value="Wind">Wind</option>
+          <option value="Hydro">Hydro</option>
+          <option value="Oil">Oil</option>
+          <option value="Storage">Storage</option>
+          <option value="Biomass">Biomass</option>
+        </select>
+      </div>
+      <!-- Queue filters removed — queue data is chart/KPI only -->
+    </div>
+
+    <!-- Legend -->
+    <div class="sidebar-section">
+      <div class="section-header">Legend</div>
+      <div class="legend-title">Power Plants (by fuel)</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#5a7da8"></div> Natural Gas</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#4a4a4a"></div> Coal</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#2B4B6F"></div> Nuclear</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#C4A035"></div> Solar</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#3D5C3D"></div> Wind</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#7aaed4"></div> Hydro</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#8B5E3C"></div> Oil</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#7c5cbf"></div> Storage</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#6b8e4e"></div> Biomass</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#9C9788"></div> Other</div>
+
+      <div class="legend-title">Transmission Lines</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#9C9788; width:20px; height:2px; border:none;"></div> 345 kV</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#5a5548; width:20px; height:3px; border:none;"></div> 500 kV</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1A1A1A; width:20px; height:4px; border:none;"></div> 765 kV</div>
+
+      <div class="legend-title">Planned Routes (RTEP)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#8B2B2B; width:20px; height:3px; border:none;"></div> Proposed / Selected <span class="flag-estimate" title="PEC geometry, 7/25 proposals confirmed via PJM RTEP">[VERIFY]</span></div>
+
+      <div class="legend-title">NIETC Corridor</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#C4A035; opacity:0.25; border:2px solid #C4A035;"></div> DOE Preliminary (PEC) <span class="flag-estimate" title="No official DOE GIS; PEC digitization ~8x larger than Audubon's">[VERIFY]</span></div>
+
+      <div class="legend-title">Data Centers</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:#8B2B2B"></div> Data Center (IM3/PNNL) <span class="flag-estimate" title="~80% coverage for pre-2024 facilities; CoreWeave, Yondr absent. Peer-reviewed, DOI: 10.57931/2550666">[GAP: ~80%]</span></div>
+
+      <!-- Queue legend removed — queue data is chart/KPI only -->
+    </div>
+
+    <!-- Dashboard: Capacity Prices -->
+    <div class="dash-panel">
+      <div class="dash-panel-title">Capacity Market Prices</div>
+      <canvas id="chart-capacity" class="dash-chart"></canvas>
+      <div class="dash-source">Source: PJM RPM BRA Reports. RTO clearing price, $/MW-day. <span class="flag-estimate">[VERIFY]</span> manual PDF extraction.</div>
+    </div>
+
+    <!-- Dashboard: Reserve Margins -->
+    <div class="dash-panel">
+      <div class="dash-panel-title">Reserve Margin Trajectory</div>
+      <canvas id="chart-reserves" class="dash-chart"></canvas>
+      <div class="dash-source">Source: NERC LTRA 2024/2025. <span class="flag-estimate">[ESTIMATE]</span> for projected years.</div>
+    </div>
+
+    <!-- Dashboard: Queue Surge -->
+    <div class="dash-panel">
+      <div class="dash-panel-title">Queue Submissions (MW)</div>
+      <canvas id="chart-queue" class="dash-chart"></canvas>
+      <div class="dash-source">Source: PJM Interconnection Queue (public Excel). 2024 near-zero: queue reform transition pause. Cycle queue migrants excluded to prevent double-count.</div>
+    </div>
+
+    <!-- Dashboard: Queue by State -->
+    <div class="dash-panel">
+      <div class="dash-panel-title">Queue by State (MW)</div>
+      <canvas id="chart-queue-state" class="dash-chart" style="height:180px"></canvas>
+      <div class="dash-source">Source: PJM Interconnection Queue (public Excel). Active projects only, 2020+. Top 8 states by capacity.</div>
+    </div>
+
+    <!-- Dashboard: Interconnected by Year -->
+    <div class="dash-panel">
+      <div class="dash-panel-title">Interconnected by Year (MW)</div>
+      <canvas id="chart-interconnected" class="dash-chart" style="height:140px"></canvas>
+      <div class="dash-source">Source: PJM Interconnection Queue (public Excel). Projects reaching In Service status. Uses actual in-service MW.</div>
+    </div>
+
+    <!-- Dashboard: Interconnection Wait Time -->
+    <div class="dash-panel">
+      <div class="dash-panel-title">Interconnection Wait Time</div>
+      <canvas id="chart-wait-time" class="dash-chart" style="height:140px"></canvas>
+      <div class="dash-source">Source: PJM Interconnection Queue. Time from submission to actual in-service date. Median and 75th percentile, by in-service year.</div>
+    </div>
+
+    <!-- Dashboard: Imports/Exports -->
+    <div class="dash-panel">
+      <div class="dash-panel-title">Net Interchange</div>
+      <canvas id="chart-interchange" class="dash-chart"></canvas>
+      <div class="dash-source">Source: EIA Form 930. Positive = net imports. <span class="flag-estimate">[ESTIMATE]</span> annualized from quarterly samples.</div>
+    </div>
+
+    <!-- Dashboard: Resource Mix -->
+    <div class="dash-panel">
+      <div class="dash-panel-title">Resource Mix Shift</div>
+      <canvas id="chart-generation" class="dash-chart" style="height:140px"></canvas>
+      <div class="dash-source">Source: EIA Form 923. <span class="flag-estimate">[ESTIMATE]</span> Uses full-state totals for PJM-adjacent states — partial states (IL, MI, IN, KY, NC, TN) overcount actual PJM generation. TWh.</div>
+    </div>
+
+    <!-- Dashboard: KPI Cards -->
+    <div class="dash-panel">
+      <div class="dash-panel-title">Key Figures</div>
+      <div class="dash-kpi">
+        <div class="kpi-card">
+          <div class="kpi-value" id="kpi-plants">—</div>
+          <div class="kpi-label">Plants</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value" id="kpi-capacity">—</div>
+          <div class="kpi-label">GW Nameplate</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value" id="kpi-queue">—</div>
+          <div class="kpi-label">Queue Active</div>
+          <div style="font-family:var(--font-mono); font-size:7pt; color:var(--color-warm-gray); margin-top:2px;" id="kpi-queue-withdrawn"></div>
+        </div>
+      </div>
+      <div class="dash-source">Data as of March 2026.</div>
+    </div>
+
+  </div>
+
+  <div class="map-wrap">
+    <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle sidebar">&#9776;</button>
+    <div id="map" class="map-container"></div>
+    <div id="loading-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(245,242,232,0.85);z-index:5;pointer-events:none;">
+      <div style="font-family:var(--font-mono);font-size:9pt;color:var(--color-warm-gray);">Loading data…</div>
+    </div>
+    <div class="source-bar">
+      <span>Sources: HIFLD, EIA, PJM, NERC, IM3/PNNL</span>
+      <span>Last updated: March 2026</span>
+    </div>
+  </div>
+  </div><!-- .explorer-body -->
+</div>
+
+<script>
+// ================================================================
+// Data loading and map initialization
+// ================================================================
+
+var DATA = {};
+var map;
+
+// Fuel color maps
+var PLANT_FUEL_COLORS = {
+  'Natural Gas': '#5a7da8',
+  'Coal': '#4a4a4a',
+  'Nuclear': '#2B4B6F',
+  'Solar': '#C4A035',
+  'Wind': '#3D5C3D',
+  'Hydro': '#7aaed4',
+  'Oil': '#8B5E3C',
+  'Storage': '#7c5cbf',
+  'Biomass': '#6b8e4e',
+  'Other Gas': '#9C9788',
+  'Purchased Steam': '#9C9788',
+  'Other': '#9C9788',
+  'Unknown': '#9C9788'
+};
+
+// Queue chart constants (derived from PLANT_FUEL_COLORS)
+var QUEUE_FUEL_ORDER = ['Solar', 'Storage', 'Wind', 'Natural Gas', 'Other'];
+var QUEUE_FUEL_COLORS = {};
+QUEUE_FUEL_ORDER.forEach(function(f) { QUEUE_FUEL_COLORS[f] = PLANT_FUEL_COLORS[f] || '#9C9788'; });
+
+var TERMINAL_STATUSES = ['withdrawn', 'deactivated', 'retracted', 'annulled', 'canceled'];
+
+function categorizeFuel(fuel) {
+  if (!fuel) return 'Other';
+  if (fuel.indexOf('Solar') !== -1) return 'Solar';
+  if (fuel.indexOf('Storage') !== -1) return 'Storage';
+  if (fuel.indexOf('Wind') !== -1) return 'Wind';
+  if (fuel.indexOf('Natural Gas') !== -1) return 'Natural Gas';
+  return 'Other';
+}
+
+function isActiveQueueProject(p) {
+  if (!p.submitted_year || p.submitted_year < 2020) return false;
+  if (p.queue_type === 'cycle' && p.submitted_year < 2024) return false;
+  var s = (p.status || '').toLowerCase();
+  if (TERMINAL_STATUSES.indexOf(s) !== -1 || s === 'in service') return false;
+  return true;
+}
+
+function isWithdrawnQueueProject(p) {
+  var s = (p.status || '').toLowerCase();
+  return TERMINAL_STATUSES.indexOf(s) !== -1;
+}
+
+function initCanvas(canvas) {
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width = canvas.offsetWidth * 2;
+  var h = canvas.height = canvas.offsetHeight * 2;
+  ctx.scale(2, 2);
+  return { ctx: ctx, cw: w / 2, ch: h / 2 };
+}
+
+function drawAxes(ctx, pad, cw, ch) {
+  ctx.strokeStyle = '#9C9788';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, ch - pad.bottom);
+  ctx.lineTo(cw - pad.right, ch - pad.bottom);
+  ctx.stroke();
+}
+
+function drawYLabel(ctx, ch, label) {
+  ctx.save();
+  ctx.fillStyle = '#9C9788';
+  ctx.font = '7px "IBM Plex Mono"';
+  ctx.textAlign = 'center';
+  ctx.translate(8, ch / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText(label, 0, 0);
+  ctx.restore();
+}
+
+function addCursorHandlers(layerId) {
+  map.on('mouseenter', layerId, function() { map.getCanvas().style.cursor = 'pointer'; });
+  map.on('mouseleave', layerId, function() { map.getCanvas().style.cursor = ''; });
+}
+
+// ================================================================
+// Load all data files
+// ================================================================
+async function loadData() {
+  var files = {
+    plants: 'data/processed/plants.json',
+    queue: 'data/processed/queue.json',
+    boundary: 'data/raw/hifld_planning_areas.geojson',
+    capacity: 'data/processed/capacity_prices.json',
+    reserves: 'data/processed/reserve_margins.json',
+    generation: 'data/processed/generation.json',
+    interchange: 'data/processed/interchange.json',
+    datacenters: 'data/processed/datacenters.json',
+    transmission: 'data/processed/transmission.geojson',
+    plannedTx: 'data/processed/planned_transmission.geojson',
+    nietc: 'data/processed/nietc_corridors.geojson'
+  };
+
+  var results = await Promise.allSettled(
+    Object.entries(files).map(async function([key, path]) {
+      var resp = await fetch(path);
+      if (!resp.ok) throw new Error(key + ': ' + resp.status);
+      var data = await resp.json();
+      DATA[key] = data;
+      return key;
+    })
+  );
+
+  var failures = results.filter(function(r) { return r.status === 'rejected'; });
+  failures.forEach(function(r) { console.warn('Failed to load:', r.reason); });
+  if (failures.length > 0) {
+    var banner = document.createElement('div');
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999;background:#8B2B2B;color:#fff;padding:8px 16px;font-family:var(--font-mono);font-size:9pt;text-align:center;';
+    banner.textContent = failures.length + ' data source(s) failed to load. Some charts or layers may be missing.';
+    document.body.appendChild(banner);
+  }
+}
+
+// ================================================================
+// Convert data to GeoJSON
+// ================================================================
+function plantsToGeoJSON(plants) {
+  return {
+    type: 'FeatureCollection',
+    features: plants.filter(function(p) { return p.lat && p.lon; }).map(function(p) {
+      return {
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
+        properties: {
+          name: p.name || 'Unknown',
+          fuel: p.fuel_category || 'Unknown',
+          mw: p.nameplate_mw || 0,
+          operator: p.operator || '',
+          state: p.state || '',
+          status: p.status || ''
+        }
+      };
+    })
+  };
+}
+
+// ================================================================
+// Mini chart renderers (Canvas 2D)
+// ================================================================
+function drawCapacityChart(canvas) {
+  if (!DATA.capacity) return;
+  var c = initCanvas(canvas);
+  var ctx = c.ctx, cw = c.cw, ch = c.ch;
+
+  var data = DATA.capacity.data;
+  var pad = { top: 20, right: 10, bottom: 24, left: 40 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var maxVal = Math.max.apply(null, data.map(function(d) { return d.rto_clearing_price_per_mw_day; }));
+  maxVal = Math.ceil(maxVal / 50) * 50;
+
+  drawAxes(ctx, pad, cw, ch);
+
+  // Bars
+  var barW = plotW / data.length * 0.7;
+  var gap = plotW / data.length * 0.3;
+
+  data.forEach(function(d, i) {
+    var x = pad.left + i * (plotW / data.length) + gap / 2;
+    var barH = (d.rto_clearing_price_per_mw_day / maxVal) * plotH;
+    var y = ch - pad.bottom - barH;
+
+    // Color: red for spike years
+    ctx.fillStyle = d.rto_clearing_price_per_mw_day > 200 ? '#8B2B2B' : '#2B4B6F';
+    ctx.fillRect(x, y, barW, barH);
+
+    // Label
+    ctx.fillStyle = '#9C9788';
+    ctx.font = '7px "IBM Plex Mono"';
+    ctx.textAlign = 'center';
+    ctx.fillText(d.delivery_year.split('/')[0].slice(-2) + '/' + d.delivery_year.split('/')[1].slice(-2),
+                 x + barW / 2, ch - pad.bottom + 12);
+
+    // Value on bar
+    ctx.fillStyle = '#1A1A1A';
+    ctx.font = 'bold 7px "IBM Plex Mono"';
+    ctx.fillText('$' + Math.round(d.rto_clearing_price_per_mw_day), x + barW / 2, y - 3);
+  });
+
+  // Y axis label
+  drawYLabel(ctx, ch, '$/MW-day');
+}
+
+function drawReservesChart(canvas) {
+  if (!DATA.reserves) return;
+  var c = initCanvas(canvas);
+  var ctx = c.ctx, cw = c.cw, ch = c.ch;
+
+  var data = DATA.reserves.data;
+  var rml = DATA.reserves.reference_margin_level_pct;
+  var pad = { top: 15, right: 10, bottom: 24, left: 35 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var years = data.map(function(d) { return d.year; });
+  var minY = Math.min.apply(null, years);
+  var maxY = Math.max.apply(null, years);
+  var maxVal = 45;
+
+  // Reference margin line
+  var rmlY = pad.top + plotH - (rml / maxVal) * plotH;
+  ctx.strokeStyle = '#8B2B2B';
+  ctx.lineWidth = 0.5;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.moveTo(pad.left, rmlY);
+  ctx.lineTo(cw - pad.right, rmlY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#8B2B2B';
+  ctx.font = '6px "IBM Plex Mono"';
+  ctx.textAlign = 'right';
+  ctx.fillText('RML ' + rml + '%', cw - pad.right, rmlY - 3);
+
+  // Axes
+  drawAxes(ctx, pad, cw, ch);
+
+  // Line + points — use dashed lines for gaps between non-consecutive years
+  ctx.lineWidth = 1.5;
+  data.forEach(function(d, i) {
+    if (i === 0) return;
+    var prev = data[i - 1];
+    var x0 = pad.left + ((prev.year - minY) / (maxY - minY)) * plotW;
+    var y0 = pad.top + plotH - (prev.summer_arm_pct / maxVal) * plotH;
+    var x1 = pad.left + ((d.year - minY) / (maxY - minY)) * plotW;
+    var y1 = pad.top + plotH - (d.summer_arm_pct / maxVal) * plotH;
+    var yearGap = d.year - prev.year;
+    ctx.strokeStyle = '#2B4B6F';
+    if (yearGap > 1) {
+      ctx.setLineDash([3, 3]); // dashed for interpolated gaps
+    } else {
+      ctx.setLineDash([]);
+    }
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+  });
+  ctx.setLineDash([]);
+
+  // Points
+  data.forEach(function(d) {
+    var x = pad.left + ((d.year - minY) / (maxY - minY)) * plotW;
+    var y = pad.top + plotH - (d.summer_arm_pct / maxVal) * plotH;
+    ctx.beginPath();
+    ctx.arc(x, y, d.type === 'projected' ? 2.5 : 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = d.type === 'projected' ? '#FDFCF9' : '#2B4B6F';
+    ctx.fill();
+    ctx.strokeStyle = '#2B4B6F';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Label years
+    if (d.year % 2 === 0 || d.year === 2025) {
+      ctx.fillStyle = '#9C9788';
+      ctx.font = '7px "IBM Plex Mono"';
+      ctx.textAlign = 'center';
+      ctx.fillText(String(d.year), x, ch - pad.bottom + 12);
+    }
+  });
+
+  // Y label
+  drawYLabel(ctx, ch, 'ARM %');
+}
+
+function drawInterchangeChart(canvas) {
+  if (!DATA.interchange || !DATA.interchange.annual_estimates) return;
+  var c = initCanvas(canvas);
+  var ctx = c.ctx, cw = c.cw, ch = c.ch;
+
+  var data = DATA.interchange.annual_estimates;
+  var pad = { top: 20, right: 10, bottom: 24, left: 40 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  // Convert to TWh
+  var vals = data.map(function(d) { return d.est_annual_interchange_mwh / 1e6; });
+  var maxPos = Math.max.apply(null, vals.concat([0]));
+  var minNeg = Math.min.apply(null, vals.concat([0]));
+  var maxVal = Math.ceil(Math.max(maxPos, Math.abs(minNeg)) / 5) * 5;
+  if (maxVal === 0) maxVal = 5;
+  var hasNeg = minNeg < 0;
+
+  // Zero line Y position (proportional to actual pos/neg range)
+  var posFrac = hasNeg ? maxPos / (maxPos + Math.abs(minNeg)) : 1;
+  if (posFrac < 0.3) posFrac = 0.3;  // floor so positive bars always have room
+  if (posFrac > 0.85) posFrac = 0.85;
+  var zeroY = hasNeg ? pad.top + plotH * posFrac : ch - pad.bottom;
+  var posScale = hasNeg ? (zeroY - pad.top) : plotH;
+  var negScale = hasNeg ? (ch - pad.bottom - zeroY) : 0;
+
+  // Axes
+  drawAxes(ctx, pad, cw, ch);
+
+  // Zero line
+  ctx.strokeStyle = '#e8e6e2';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, zeroY);
+  ctx.lineTo(cw - pad.right, zeroY);
+  ctx.stroke();
+
+  // Bars
+  var barW = plotW / data.length * 0.7;
+  var gap = plotW / data.length * 0.3;
+
+  data.forEach(function(d, i) {
+    var twh = d.est_annual_interchange_mwh / 1e6;
+    var x = pad.left + i * (plotW / data.length) + gap / 2;
+
+    if (twh >= 0) {
+      var barH = maxPos > 0 ? (twh / maxPos) * posScale : 0;
+      var y = zeroY - barH;
+      ctx.fillStyle = '#2B4B6F';
+      ctx.fillRect(x, y, barW, barH);
+      // Value on bar
+      ctx.fillStyle = '#1A1A1A';
+      ctx.font = 'bold 7px "IBM Plex Mono"';
+      ctx.textAlign = 'center';
+      ctx.fillText(Math.round(twh) + ' TWh', x + barW / 2, y - 3);
+    } else {
+      var barH = Math.abs(minNeg) > 0 ? (Math.abs(twh) / Math.abs(minNeg)) * negScale : 0;
+      ctx.fillStyle = '#8B2B2B';
+      ctx.fillRect(x, zeroY, barW, barH);
+      // Value below bar
+      ctx.fillStyle = '#1A1A1A';
+      ctx.font = 'bold 7px "IBM Plex Mono"';
+      ctx.textAlign = 'center';
+      ctx.fillText(Math.round(twh) + ' TWh', x + barW / 2, zeroY + barH + 10);
+    }
+
+    // Year label
+    ctx.fillStyle = '#9C9788';
+    ctx.font = '7px "IBM Plex Mono"';
+    ctx.textAlign = 'center';
+    ctx.fillText(String(d.year), x + barW / 2, ch - pad.bottom + 12);
+  });
+
+  // Net importer/exporter label
+  var allPositive = vals.every(function(v) { return v >= 0; });
+  ctx.fillStyle = '#9C9788';
+  ctx.font = 'italic 7px "Source Serif 4"';
+  ctx.textAlign = 'right';
+  ctx.fillText(allPositive ? 'PJM is a net importer' : 'Positive = imports, negative = exports', cw - pad.right, pad.top + 5);
+
+  // Y label
+  drawYLabel(ctx, ch, 'TWh');
+}
+
+function drawGenerationChart(canvas) {
+  if (!DATA.generation || !DATA.generation.summary_by_year) return;
+  var c = initCanvas(canvas);
+  var ctx = c.ctx, cw = c.cw, ch = c.ch;
+
+  var years = DATA.generation.summary_by_year;
+  var y2020 = years['2020'] || {};
+  var y2024 = years['2024'] || {};
+
+  // Fuel categories to show, ordered by 2024 magnitude
+  var fuels = ['Natural Gas', 'Nuclear', 'Coal', 'Wind', 'Solar', 'Hydro'];
+  var fuelLabels = ['Gas', 'Nuclear', 'Coal', 'Wind', 'Solar', 'Hydro'];
+  var fuelColors2020 = '#2B4B6F';
+  var fuelColors2024 = '#8B2B2B';
+
+  var pad = { top: 18, right: 10, bottom: 28, left: 40 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  // Max value (convert MWh to TWh)
+  var maxTWh = 0;
+  fuels.forEach(function(f) {
+    var v2020 = (y2020[f] || 0) / 1e6;
+    var v2024 = (y2024[f] || 0) / 1e6;
+    if (v2020 > maxTWh) maxTWh = v2020;
+    if (v2024 > maxTWh) maxTWh = v2024;
+  });
+  maxTWh = Math.ceil(maxTWh / 50) * 50;
+
+  // Axes
+  drawAxes(ctx, pad, cw, ch);
+
+  // Grid lines
+  for (var g = 0; g <= maxTWh; g += 100) {
+    var gy = ch - pad.bottom - (g / maxTWh) * plotH;
+    ctx.strokeStyle = '#e8e6e2';
+    ctx.beginPath();
+    ctx.moveTo(pad.left, gy);
+    ctx.lineTo(cw - pad.right, gy);
+    ctx.stroke();
+    ctx.fillStyle = '#9C9788';
+    ctx.font = '6px "IBM Plex Mono"';
+    ctx.textAlign = 'right';
+    ctx.fillText(g, pad.left - 3, gy + 3);
+  }
+
+  // Paired bars
+  var groupW = plotW / fuels.length;
+  var barW = groupW * 0.35;
+  var gap = groupW * 0.1;
+
+  fuels.forEach(function(fuel, i) {
+    var x = pad.left + i * groupW + gap;
+    var v2020 = (y2020[fuel] || 0) / 1e6;
+    var v2024 = (y2024[fuel] || 0) / 1e6;
+
+    // 2020 bar
+    var h2020 = (v2020 / maxTWh) * plotH;
+    ctx.fillStyle = fuelColors2020;
+    ctx.fillRect(x, ch - pad.bottom - h2020, barW, h2020);
+
+    // 2024 bar
+    var h2024 = (v2024 / maxTWh) * plotH;
+    ctx.fillStyle = fuelColors2024;
+    ctx.fillRect(x + barW + 1, ch - pad.bottom - h2024, barW, h2024);
+
+    // Fuel label
+    ctx.fillStyle = '#9C9788';
+    ctx.font = '7px "IBM Plex Mono"';
+    ctx.textAlign = 'center';
+    ctx.fillText(fuelLabels[i], x + barW, ch - pad.bottom + 12);
+
+    // Delta annotation for significant changes
+    var delta = v2024 - v2020;
+    var pctChange = v2020 > 0 ? (delta / v2020 * 100) : 0;
+    if (Math.abs(pctChange) > 10 && Math.abs(delta) > 5) {
+      var sign = delta > 0 ? '+' : '';
+      ctx.fillStyle = delta > 0 ? '#3D5C3D' : '#8B2B2B';
+      ctx.font = 'bold 6px "IBM Plex Mono"';
+      var topBar = Math.max(h2020, h2024);
+      ctx.fillText(sign + Math.round(pctChange) + '%', x + barW, ch - pad.bottom - topBar - 3);
+    }
+  });
+
+  // Legend
+  ctx.fillStyle = fuelColors2020;
+  ctx.fillRect(cw - 80, pad.top - 2, 8, 8);
+  ctx.fillStyle = '#1A1A1A';
+  ctx.font = '7px "IBM Plex Mono"';
+  ctx.textAlign = 'left';
+  ctx.fillText('2020', cw - 70, pad.top + 6);
+
+  ctx.fillStyle = fuelColors2024;
+  ctx.fillRect(cw - 42, pad.top - 2, 8, 8);
+  ctx.fillStyle = '#1A1A1A';
+  ctx.fillText('2024', cw - 32, pad.top + 6);
+
+  // Y label
+  drawYLabel(ctx, ch, 'TWh');
+}
+
+function drawQueueChart(canvas) {
+  if (!DATA.queue) return;
+  var c = initCanvas(canvas);
+  var ctx = c.ctx, cw = c.cw, ch = c.ch;
+
+  var allProjects = DATA.queue.data;
+  var pad = { top: 15, right: 10, bottom: 24, left: 40 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  // Aggregate MW by year and fuel category
+  var years = [2020, 2021, 2022, 2023, 2024, 2025];
+  var fuelOrder = QUEUE_FUEL_ORDER;
+
+  var yearData = {};
+  years.forEach(function(y) { yearData[y] = {}; fuelOrder.forEach(function(f) { yearData[y][f] = 0; }); });
+
+  allProjects.forEach(function(p) {
+    if (!p.submitted_year || p.submitted_year < 2020 || p.submitted_year > 2025) return;
+    // Exclude cycle queue migrants (TC1/TC2 with pre-2024 submitted dates)
+    // to avoid double-counting with serial queue entries
+    if (p.queue_type === 'cycle' && p.submitted_year < 2024) return;
+    var mw = p.mw_capacity || 0;
+    var fuel = p.fuel || 'Other';
+    var cat = categorizeFuel(fuel);
+    yearData[p.submitted_year][cat] += mw;
+  });
+
+  var maxMW = 0;
+  years.forEach(function(y) {
+    var total = 0;
+    fuelOrder.forEach(function(f) { total += yearData[y][f]; });
+    if (total > maxMW) maxMW = total;
+  });
+  maxMW = Math.ceil(maxMW / 10000) * 10000;
+
+  var fuelColors = QUEUE_FUEL_COLORS;
+
+  // Axes
+  drawAxes(ctx, pad, cw, ch);
+
+  // Stacked bars
+  var barW = plotW / years.length * 0.7;
+  var gap = plotW / years.length * 0.3;
+
+  years.forEach(function(year, i) {
+    var x = pad.left + i * (plotW / years.length) + gap / 2;
+    var cumH = 0;
+
+    fuelOrder.forEach(function(fuel) {
+      var mw = yearData[year][fuel];
+      var barH = (mw / maxMW) * plotH;
+      var y = ch - pad.bottom - cumH - barH;
+      ctx.fillStyle = fuelColors[fuel];
+      ctx.fillRect(x, y, barW, barH);
+      cumH += barH;
+    });
+
+    // Year label
+    ctx.fillStyle = '#9C9788';
+    ctx.font = '7px "IBM Plex Mono"';
+    ctx.textAlign = 'center';
+    ctx.fillText(String(year), x + barW / 2, ch - pad.bottom + 12);
+
+    // Total on top
+    var total = 0;
+    fuelOrder.forEach(function(f) { total += yearData[year][f]; });
+    ctx.fillStyle = '#1A1A1A';
+    ctx.font = 'bold 6px "IBM Plex Mono"';
+    ctx.fillText(Math.round(total / 1000) + 'GW', x + barW / 2, ch - pad.bottom - cumH - 3);
+  });
+
+  // Y label
+  drawYLabel(ctx, ch, 'GW');
+}
+
+function drawQueueByStateChart(canvas) {
+  if (!DATA.queue) return;
+  var c = initCanvas(canvas);
+  var ctx = c.ctx, cw = c.cw, ch = c.ch;
+
+  var allProjects = DATA.queue.data;
+  var fuelOrder = QUEUE_FUEL_ORDER;
+  var fuelColors = QUEUE_FUEL_COLORS;
+
+  // Aggregate active 2020+ MW by state and fuel
+  var stateData = {};
+  allProjects.forEach(function(p) {
+    if (!isActiveQueueProject(p)) return;
+    var state = p.state || 'Unknown';
+    if (!stateData[state]) {
+      stateData[state] = {};
+      fuelOrder.forEach(function(f) { stateData[state][f] = 0; });
+    }
+    var mw = p.mw_capacity || 0;
+    var fuel = p.fuel || 'Other';
+    var cat = categorizeFuel(fuel);
+    stateData[state][cat] += mw;
+  });
+
+  // Sort states by total MW, take top 8
+  var stateTotals = Object.keys(stateData).map(function(st) {
+    var total = 0;
+    fuelOrder.forEach(function(f) { total += stateData[st][f]; });
+    return { state: st, total: total };
+  });
+  stateTotals.sort(function(a, b) { return b.total - a.total; });
+  var topStates = stateTotals.slice(0, 8);
+
+  var maxMW = topStates.length > 0 ? topStates[0].total : 1;
+  maxMW = Math.ceil(maxMW / 10000) * 10000;
+
+  var pad = { top: 8, right: 45, bottom: 8, left: 28 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+  var barH = plotH / topStates.length * 0.7;
+  var rowH = plotH / topStates.length;
+
+  // Axis line
+  ctx.strokeStyle = '#9C9788';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, ch - pad.bottom);
+  ctx.stroke();
+
+  topStates.forEach(function(item, i) {
+    var y = pad.top + i * rowH + (rowH - barH) / 2;
+    var cumW = 0;
+
+    // State label
+    ctx.fillStyle = '#1A1A1A';
+    ctx.font = '7px "IBM Plex Mono"';
+    ctx.textAlign = 'right';
+    ctx.fillText(item.state, pad.left - 4, y + barH / 2 + 2.5);
+
+    // Stacked horizontal bars
+    fuelOrder.forEach(function(fuel) {
+      var mw = stateData[item.state][fuel];
+      var segW = (mw / maxMW) * plotW;
+      if (segW > 0.5) {
+        ctx.fillStyle = fuelColors[fuel];
+        ctx.fillRect(pad.left + cumW, y, segW, barH);
+      }
+      cumW += segW;
+    });
+
+    // Total label at end of bar
+    ctx.fillStyle = '#1A1A1A';
+    ctx.font = 'bold 6px "IBM Plex Mono"';
+    ctx.textAlign = 'left';
+    ctx.fillText(Math.round(item.total / 1000) + 'GW', pad.left + cumW + 3, y + barH / 2 + 2.5);
+  });
+}
+
+function drawInterconnectedChart(canvas) {
+  if (!DATA.queue) return;
+  var c = initCanvas(canvas);
+  var ctx = c.ctx, cw = c.cw, ch = c.ch;
+
+  var allProjects = DATA.queue.data;
+  var pad = { top: 15, right: 10, bottom: 24, left: 40 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+  var fuelOrder = QUEUE_FUEL_ORDER;
+  var fuelColors = QUEUE_FUEL_COLORS;
+
+  var yearData = {};
+  years.forEach(function(y) { yearData[y] = {}; fuelOrder.forEach(function(f) { yearData[y][f] = 0; }); });
+
+  allProjects.forEach(function(p) {
+    if (!p.status || p.status.toLowerCase() !== 'in service') return;
+    if (!p.actual_in_service) return;
+    var parts = p.actual_in_service.split('/');
+    var yr = parseInt(parts[parts.length - 1], 10);
+    if (isNaN(yr) || yr < 2015 || yr > 2025) return;
+    var mw = p.mw_in_service || p.mw_capacity || 0;
+    var cat = categorizeFuel(p.fuel || 'Other');
+    yearData[yr][cat] += mw;
+  });
+
+  var maxMW = 0;
+  years.forEach(function(y) {
+    var total = 0;
+    fuelOrder.forEach(function(f) { total += yearData[y][f]; });
+    if (total > maxMW) maxMW = total;
+  });
+  maxMW = Math.ceil(maxMW / 5000) * 5000;
+
+  drawAxes(ctx, pad, cw, ch);
+
+  var barW = plotW / years.length * 0.7;
+  var gap = plotW / years.length * 0.3;
+
+  years.forEach(function(year, i) {
+    var x = pad.left + i * (plotW / years.length) + gap / 2;
+    var cumH = 0;
+
+    fuelOrder.forEach(function(fuel) {
+      var mw = yearData[year][fuel];
+      var barH = (mw / maxMW) * plotH;
+      var y = ch - pad.bottom - cumH - barH;
+      ctx.fillStyle = fuelColors[fuel];
+      ctx.fillRect(x, y, barW, barH);
+      cumH += barH;
+    });
+
+    // Year label — use 2-digit format for 11 bars
+    ctx.fillStyle = '#9C9788';
+    ctx.font = '7px "IBM Plex Mono"';
+    ctx.textAlign = 'center';
+    ctx.fillText("'" + String(year).slice(2), x + barW / 2, ch - pad.bottom + 12);
+
+    // Total on top
+    var total = 0;
+    fuelOrder.forEach(function(f) { total += yearData[year][f]; });
+    ctx.fillStyle = '#1A1A1A';
+    ctx.font = 'bold 6px "IBM Plex Mono"';
+    ctx.fillText(Math.round(total / 1000) + 'GW', x + barW / 2, ch - pad.bottom - cumH - 3);
+  });
+
+  drawYLabel(ctx, ch, 'GW');
+}
+
+function drawWaitTimeChart(canvas) {
+  if (!DATA.queue) return;
+  var c = initCanvas(canvas);
+  var ctx = c.ctx, cw = c.cw, ch = c.ch;
+
+  var pad = { top: 15, right: 10, bottom: 24, left: 40 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var years = [];
+  for (var y = 2010; y <= 2025; y++) years.push(y);
+
+  function parseDate(s) {
+    var parts = s.split('/');
+    return new Date(parseInt(parts[2], 10), parseInt(parts[0], 10) - 1, parseInt(parts[1], 10));
+  }
+
+  // Compute wait times grouped by in-service year
+  var byYear = {};
+  years.forEach(function(y) { byYear[y] = []; });
+
+  DATA.queue.data.forEach(function(p) {
+    if (!p.status || p.status.toLowerCase() !== 'in service') return;
+    if (!p.submitted_date || !p.actual_in_service) return;
+    var sub = parseDate(p.submitted_date);
+    var ais = parseDate(p.actual_in_service);
+    var waitYears = (ais - sub) / (1000 * 60 * 60 * 24 * 365.25);
+    if (waitYears < 0 || waitYears > 20) return;
+    var yr = parseInt(p.actual_in_service.split('/')[2], 10);
+    if (byYear[yr] !== undefined) byYear[yr].push(waitYears);
+  });
+
+  // Compute median and P75 for each year
+  var medians = [], p75s = [];
+  years.forEach(function(yr) {
+    var arr = byYear[yr].slice().sort(function(a, b) { return a - b; });
+    if (arr.length === 0) {
+      medians.push(null);
+      p75s.push(null);
+    } else {
+      medians.push(arr[Math.floor(arr.length / 2)]);
+      p75s.push(arr[Math.floor(arr.length * 0.75)]);
+    }
+  });
+
+  var maxY = 10; // Fixed 10-year Y scale
+
+  // Axes
+  drawAxes(ctx, pad, cw, ch);
+
+  // Y gridlines at 2, 4, 6, 8 years
+  ctx.strokeStyle = '#E8E4DA';
+  ctx.lineWidth = 0.5;
+  for (var g = 2; g <= 8; g += 2) {
+    var gy = ch - pad.bottom - (g / maxY) * plotH;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, gy);
+    ctx.lineTo(cw - pad.right, gy);
+    ctx.stroke();
+    // Y tick labels
+    ctx.fillStyle = '#9C9788';
+    ctx.font = '6px "IBM Plex Mono"';
+    ctx.textAlign = 'right';
+    ctx.fillText(g + 'yr', pad.left - 3, gy + 2.5);
+  }
+
+  function xForYear(i) {
+    return pad.left + (i / (years.length - 1)) * plotW;
+  }
+  function yForVal(v) {
+    return ch - pad.bottom - (v / maxY) * plotH;
+  }
+
+  // Draw P75 line (dashed, red)
+  ctx.strokeStyle = '#8B2B2B';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  var started = false;
+  years.forEach(function(yr, i) {
+    if (p75s[i] === null) { started = false; return; }
+    if (!started) { ctx.moveTo(xForYear(i), yForVal(p75s[i])); started = true; }
+    else ctx.lineTo(xForYear(i), yForVal(p75s[i]));
+  });
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Draw median line (solid, dark)
+  ctx.strokeStyle = '#1A1A1A';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  started = false;
+  years.forEach(function(yr, i) {
+    if (medians[i] === null) { started = false; return; }
+    if (!started) { ctx.moveTo(xForYear(i), yForVal(medians[i])); started = true; }
+    else ctx.lineTo(xForYear(i), yForVal(medians[i]));
+  });
+  ctx.stroke();
+
+  // Dots on median line
+  years.forEach(function(yr, i) {
+    if (medians[i] === null) return;
+    ctx.fillStyle = '#1A1A1A';
+    ctx.beginPath();
+    ctx.arc(xForYear(i), yForVal(medians[i]), 2, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Dots on P75 line
+  years.forEach(function(yr, i) {
+    if (p75s[i] === null) return;
+    ctx.fillStyle = '#8B2B2B';
+    ctx.beginPath();
+    ctx.arc(xForYear(i), yForVal(p75s[i]), 2, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // X-axis year labels (every other year to avoid crowding)
+  ctx.fillStyle = '#9C9788';
+  ctx.font = '7px "IBM Plex Mono"';
+  ctx.textAlign = 'center';
+  years.forEach(function(yr, i) {
+    if (i % 2 === 0 || i === years.length - 1) {
+      ctx.fillText("'" + String(yr).slice(2), xForYear(i), ch - pad.bottom + 12);
+    }
+  });
+
+  // Inline legend (top-right of plot area)
+  var lx = cw - pad.right - 5;
+  var ly = pad.top + 6;
+  ctx.textAlign = 'right';
+  ctx.font = 'bold 6px "IBM Plex Mono"';
+
+  // Median legend
+  ctx.fillStyle = '#1A1A1A';
+  ctx.fillText('Median', lx, ly);
+  ctx.strokeStyle = '#1A1A1A';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(lx - 38, ly - 2.5);
+  ctx.lineTo(lx - 26, ly - 2.5);
+  ctx.stroke();
+
+  // P75 legend
+  ctx.fillStyle = '#8B2B2B';
+  ctx.fillText('P75', lx, ly + 10);
+  ctx.strokeStyle = '#8B2B2B';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  ctx.moveTo(lx - 28, ly + 7.5);
+  ctx.lineTo(lx - 16, ly + 7.5);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Y label
+  drawYLabel(ctx, ch, 'Years');
+}
+
+// ================================================================
+// Popup builders
+// ================================================================
+function plantPopup(props) {
+  return '<div class="popup-header">' + escapeHtml(props.name) + '</div>' +
+    '<div class="popup-body">' +
+    popupRow('Fuel', props.fuel) +
+    popupRow('Capacity', (props.mw != null && props.mw !== '') ? Math.round(props.mw).toLocaleString() + ' MW' : '—') +
+    popupRow('Operator', props.operator) +
+    popupRow('State', props.state) +
+    popupRow('Status', props.status) +
+    '</div>';
+}
+
+function popupRow(label, value) {
+  return '<div class="popup-row"><span class="popup-field">' + escapeHtml(label) +
+    '</span><span class="popup-value">' + escapeHtml(value || '—') + '</span></div>';
+}
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ================================================================
+// Initialize everything
+// ================================================================
+document.addEventListener('DOMContentLoaded', function() {
+  var dataLoaded = false;
+  var mapStyleReady = false;
+
+  var layersAdded = false;
+  function addAllLayers() {
+    if (!dataLoaded || !mapStyleReady || layersAdded) return;
+    layersAdded = true;
+    addPJMBoundary();
+    addTransmissionLayer();
+    addPlannedTxLayer();
+    addNIETCLayer();
+    addPlantLayer();
+    addDataCenterLayer();
+    drawCharts();
+    updateKPIs();
+    setupFilters();
+
+    // Dismiss loading overlay
+    var overlay = document.getElementById('loading-overlay');
+    if (overlay) overlay.style.display = 'none';
+
+    // Redraw charts on window resize so they stay crisp
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        drawCharts();
+        map.resize();
+      }, 150);
+    });
+  }
+
+  loadData().then(function() {
+    dataLoaded = true;
+    addAllLayers();
+  });
+
+  initMap();
+
+  // 'load' waits for all sources (including vector tiles) which can stall.
+  // Use a two-pronged approach: try 'load', but also poll isStyleLoaded as fallback.
+  map.on('load', function() {
+    mapStyleReady = true;
+    addAllLayers();
+  });
+
+  // Fallback: if style is ready but 'load' hasn't fired (e.g., tile source stalled),
+  // check periodically and add layers once style can accept sources
+  var fallbackInterval = setInterval(function() {
+    if (mapStyleReady) { clearInterval(fallbackInterval); return; }
+    if (map.isStyleLoaded()) {
+      mapStyleReady = true;
+      clearInterval(fallbackInterval);
+      addAllLayers();
+    }
+  }, 500);
+
+  // Graceful terrain error handling: if DEM tiles fail, remove hillshade
+  map.on('error', function(e) {
+    if (e.sourceId === 'terrain' || (e.error && e.error.message && e.error.message.indexOf('terrain') !== -1)) {
+      console.warn('Terrain source failed, removing hillshade layer');
+      try { map.removeLayer('hillshade'); } catch(err) {}
+    }
+  });
+});
+
+function initMap() {
+  var style = {
+    version: 8,
+    glyphs: 'fonts/{fontstack}/{range}.pbf',
+    sources: {
+      openmaptiles: {
+        type: 'vector',
+        url: 'https://tiles.openfreemap.org/planet',
+        attribution: '&copy; OpenFreeMap &copy; OpenStreetMap'
+      },
+      terrain: {
+        type: 'raster-dem',
+        tiles: ['https://tiles.stadiamaps.com/data/terrarium/{z}/{x}/{y}.png'],
+        encoding: 'terrarium',
+        tileSize: 256, maxzoom: 15
+      }
+    },
+    layers: [
+      // Background — Newsprint
+      { id: 'background', type: 'background', paint: { 'background-color': '#F5F2E8' } },
+      // Hillshade terrain — subtle engraving-style depth
+      {
+        id: 'hillshade', type: 'hillshade',
+        source: 'terrain',
+        paint: {
+          'hillshade-illumination-direction': 315,
+          'hillshade-exaggeration': ['interpolate', ['linear'], ['zoom'], 10, 0.3, 13, 0.15, 15, 0],
+          'hillshade-shadow-color': '#5C5C5C',
+          'hillshade-highlight-color': '#FDFCF9',
+          'hillshade-accent-color': '#9C9788'
+        }
+      },
+      // Water bodies
+      {
+        id: 'water', type: 'fill',
+        source: 'openmaptiles', 'source-layer': 'water',
+        paint: { 'fill-color': '#dce4ed', 'fill-opacity': 0.8 }
+      },
+      // Landcover — barely-there warm tints
+      {
+        id: 'landcover-forest', type: 'fill',
+        source: 'openmaptiles', 'source-layer': 'landcover',
+        filter: ['==', 'class', 'wood'],
+        paint: { 'fill-color': '#d8e0d0', 'fill-opacity': 0.08 }
+      },
+      {
+        id: 'landcover-grass', type: 'fill',
+        source: 'openmaptiles', 'source-layer': 'landcover',
+        filter: ['==', 'class', 'grass'],
+        paint: { 'fill-color': '#dde4d4', 'fill-opacity': 0.06 }
+      },
+      // Waterways — hairline engraved rivers
+      {
+        id: 'waterway', type: 'line',
+        source: 'openmaptiles', 'source-layer': 'waterway',
+        paint: {
+          'line-color': '#b8c9db',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 5, 0.3, 14, 1.5],
+          'line-opacity': 0.6
+        }
+      },
+      // Boundaries
+      {
+        id: 'boundary-country', type: 'line',
+        source: 'openmaptiles', 'source-layer': 'boundary',
+        filter: ['all', ['==', ['get', 'admin_level'], 2], ['!=', ['get', 'maritime'], 1]],
+        paint: {
+          'line-color': '#3d3830',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 3, 2.0, 7, 4.0, 12, 5.5],
+          'line-opacity': 0.9
+        }
+      },
+      {
+        id: 'boundary-state', type: 'line',
+        source: 'openmaptiles', 'source-layer': 'boundary',
+        filter: ['all', ['==', ['get', 'admin_level'], 4], ['!=', ['get', 'maritime'], 1]],
+        paint: {
+          'line-color': '#5a5548',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 3, 1.5, 7, 3.0, 12, 4.0],
+          'line-opacity': 0.8
+        }
+      },
+      // Roads — progressive detail by zoom
+      {
+        id: 'road-highway', type: 'line',
+        source: 'openmaptiles', 'source-layer': 'transportation',
+        filter: ['in', 'class', 'motorway', 'trunk'],
+        paint: {
+          'line-color': '#9C9788',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.5, 14, 2.0],
+          'line-opacity': 0.5
+        },
+        layout: { 'line-cap': 'round', 'line-join': 'round' }
+      },
+      {
+        id: 'road-major', type: 'line',
+        source: 'openmaptiles', 'source-layer': 'transportation',
+        minzoom: 9,
+        filter: ['in', 'class', 'primary', 'secondary'],
+        paint: {
+          'line-color': '#9C9788',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 9, 0.3, 14, 1.2],
+          'line-opacity': 0.4
+        },
+        layout: { 'line-cap': 'round', 'line-join': 'round' }
+      },
+      {
+        id: 'road-minor', type: 'line',
+        source: 'openmaptiles', 'source-layer': 'transportation',
+        minzoom: 12,
+        filter: ['in', 'class', 'tertiary', 'minor', 'service'],
+        paint: {
+          'line-color': '#9C9788',
+          'line-width': 0.3,
+          'line-opacity': 0.25
+        },
+        layout: { 'line-cap': 'round', 'line-join': 'round' }
+      },
+      // Buildings — faint footprints at high zoom
+      {
+        id: 'building', type: 'fill',
+        source: 'openmaptiles', 'source-layer': 'building',
+        minzoom: 14,
+        paint: { 'fill-color': '#9C9788', 'fill-opacity': 0.1 }
+      },
+      // Place labels — progressive detail
+      {
+        id: 'place-city', type: 'symbol',
+        source: 'openmaptiles', 'source-layer': 'place',
+        filter: ['==', 'class', 'city'],
+        minzoom: 4,
+        layout: {
+          'text-field': ['coalesce', ['get', 'name:en'], ['get', 'name']],
+          'text-font': ['SourceSerif4-Bold'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 4, 10, 12, 16],
+          'text-max-width': 8,
+          'text-allow-overlap': false
+        },
+        paint: { 'text-color': '#5C5C5C', 'text-halo-color': '#F5F2E8', 'text-halo-width': 1.5 }
+      },
+      {
+        id: 'place-town', type: 'symbol',
+        source: 'openmaptiles', 'source-layer': 'place',
+        filter: ['==', 'class', 'town'],
+        minzoom: 7,
+        layout: {
+          'text-field': ['coalesce', ['get', 'name:en'], ['get', 'name']],
+          'text-font': ['SourceSerif4-Regular'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 7, 9, 14, 13],
+          'text-max-width': 8
+        },
+        paint: { 'text-color': '#5C5C5C', 'text-halo-color': '#F5F2E8', 'text-halo-width': 1.2 }
+      },
+      {
+        id: 'place-village', type: 'symbol',
+        source: 'openmaptiles', 'source-layer': 'place',
+        filter: ['in', 'class', 'village', 'suburb'],
+        minzoom: 11,
+        layout: {
+          'text-field': ['coalesce', ['get', 'name:en'], ['get', 'name']],
+          'text-font': ['SourceSerif4-Regular'],
+          'text-size': 10,
+          'text-max-width': 7
+        },
+        paint: { 'text-color': '#7a7a7a', 'text-halo-color': '#F5F2E8', 'text-halo-width': 1.0 }
+      },
+      // Water labels — spaced, muted blue
+      {
+        id: 'water-label', type: 'symbol',
+        source: 'openmaptiles', 'source-layer': 'water_name',
+        minzoom: 6,
+        layout: {
+          'text-field': ['coalesce', ['get', 'name:en'], ['get', 'name']],
+          'text-font': ['SourceSerif4-Regular'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 6, 10, 14, 14],
+          'text-letter-spacing': 0.15,
+          'text-max-width': 10
+        },
+        paint: { 'text-color': '#7a9ab8', 'text-halo-color': '#dce4ed', 'text-halo-width': 1.0 }
+      }
+    ]
+  };
+
+  map = new maplibregl.Map({
+    container: 'map',
+    style: style,
+    center: [-79.5, 39.5],
+    zoom: 5.5,
+    maxZoom: 14,
+    minZoom: 4
+  });
+
+  map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+}
+
+// ================================================================
+// Add map layers
+// ================================================================
+function filterBoundaryExclaves(geojson) {
+  // HIFLD PJM boundary contains 686 sub-polygons including small municipal
+  // utility exclaves in Indiana (IMPA members) that are geographically inside
+  // MISO territory. These appear as confusing rectangles on the map.
+  // Filter: keep only polygons within 0.5° of the main body OR > 1 deg² area.
+  var feat = geojson.features[0];
+  if (!feat || feat.geometry.type !== 'MultiPolygon') return geojson;
+  var polys = feat.geometry.coordinates;
+
+  function ringBbox(ring) {
+    var minLon = Infinity, maxLon = -Infinity, minLat = Infinity, maxLat = -Infinity;
+    for (var i = 0; i < ring.length; i++) {
+      var lon = ring[i][0], lat = ring[i][1];
+      if (lon < minLon) minLon = lon;
+      if (lon > maxLon) maxLon = lon;
+      if (lat < minLat) minLat = lat;
+      if (lat > maxLat) maxLat = lat;
+    }
+    return [minLon, minLat, maxLon, maxLat];
+  }
+
+  // Find the main polygon (largest by bbox area)
+  var mainIdx = 0, mainArea = 0;
+  polys.forEach(function(poly, i) {
+    var b = ringBbox(poly[0]);
+    var a = (b[2] - b[0]) * (b[3] - b[1]);
+    if (a > mainArea) { mainArea = a; mainIdx = i; }
+  });
+  var bbox = ringBbox(polys[mainIdx][0]);
+
+  // At Indiana latitudes (38-41°N), the main PJM body's western edge is ~-86.02°.
+  // Small polygons west of -86.1° in this band are IMPA/muni exclaves inside MISO.
+  var filtered = polys.filter(function(poly) {
+    var b = ringBbox(poly[0]);
+    var a = (b[2] - b[0]) * (b[3] - b[1]);
+    if (a >= 1) return true; // Keep large polygons (main body, ComEd/IL)
+    var cx = (b[0] + b[2]) / 2;
+    var cy = (b[1] + b[3]) / 2;
+    // Drop small polygons in Indiana that are west of the main PJM body
+    if (cx < -86.1 && cy > 38 && cy < 41) return false;
+    return true;
+  });
+  console.log('PJM boundary: kept ' + filtered.length + ' of ' + polys.length + ' polygons (filtered ' + (polys.length - filtered.length) + ' isolated exclaves)');
+  return {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: feat.properties,
+      geometry: { type: 'MultiPolygon', coordinates: filtered }
+    }]
+  };
+}
+
+function addPJMBoundary() {
+  if (!DATA.boundary) return;
+
+  var boundaryData = filterBoundaryExclaves(DATA.boundary);
+
+  map.addSource('pjm-boundary', {
+    type: 'geojson',
+    data: boundaryData
+  });
+
+  map.addLayer({
+    id: 'pjm-outline',
+    type: 'line',
+    source: 'pjm-boundary',
+    paint: {
+      'line-color': '#1A1A1A',
+      'line-width': 2.5,
+      'line-opacity': 0.9
+    }
+  });
+}
+
+function addPlantLayer() {
+  if (!DATA.plants) return;
+
+  var geojson = plantsToGeoJSON(DATA.plants.data);
+
+  map.addSource('plants', { type: 'geojson', data: geojson });
+
+  // Build color match expression
+  var colorExpr = ['match', ['get', 'fuel']];
+  Object.keys(PLANT_FUEL_COLORS).forEach(function(fuel) {
+    colorExpr.push(fuel, PLANT_FUEL_COLORS[fuel]);
+  });
+  colorExpr.push('#9C9788'); // default
+
+  map.addLayer({
+    id: 'plants-layer',
+    type: 'circle',
+    source: 'plants',
+    paint: {
+      'circle-color': colorExpr,
+      'circle-radius': [
+        'interpolate', ['linear'], ['get', 'mw'],
+        0, 3, 100, 5, 500, 7, 1000, 9, 3000, 14
+      ],
+      'circle-opacity': 0.8,
+      'circle-stroke-color': '#1A1A1A',
+      'circle-stroke-width': 0.5
+    }
+  });
+
+  // Click handler
+  map.on('click', 'plants-layer', function(e) {
+    var props = e.features[0].properties;
+    new maplibregl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(plantPopup(props))
+      .addTo(map);
+  });
+
+  addCursorHandlers('plants-layer');
+}
+
+// Queue layer removed — data used in charts/KPIs only (county centroids too imprecise for map)
+
+function addDataCenterLayer() {
+  if (!DATA.datacenters || !DATA.datacenters.data) return;
+
+  var geojson = {
+    type: 'FeatureCollection',
+    features: DATA.datacenters.data.map(function(dc) {
+      return {
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [dc.lon, dc.lat] },
+        properties: {
+          name: dc.name || 'Unnamed',
+          operator: dc.operator || 'Unknown',
+          county: dc.county || '',
+          state: dc.state || '',
+          sqft: dc.sqft != null ? dc.sqft : null
+        }
+      };
+    })
+  };
+
+  map.addSource('datacenters', { type: 'geojson', data: geojson });
+
+  map.addLayer({
+    id: 'datacenters-layer',
+    type: 'circle',
+    source: 'datacenters',
+    layout: { 'visibility': 'none' },  // Off by default
+    paint: {
+      'circle-color': '#8B2B2B',
+      'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 3, 10, 6, 14, 10],
+      'circle-opacity': 0.7,
+      'circle-stroke-color': '#1A1A1A',
+      'circle-stroke-width': 0.5
+    }
+  });
+
+  map.on('click', 'datacenters-layer', function(e) {
+    var props = e.features[0].properties;
+    var rows = '';
+    if (props.name && props.name !== 'Unnamed') rows += popupRow('Name', props.name);
+    if (props.operator && props.operator !== 'Unknown') rows += popupRow('Operator', props.operator);
+    if (props.county) rows += popupRow('County', props.county);
+    if (props.state) rows += popupRow('State', props.state);
+    if (props.sqft && props.sqft !== 'null') rows += popupRow('Size', Number(props.sqft).toLocaleString() + ' sqft');
+    if (!rows) rows = popupRow('Source', 'IM3 Atlas (PNNL)');
+    new maplibregl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(
+        '<div class="popup-header">Data Center</div>' +
+        '<div class="popup-body">' + rows +
+        '<div style="font-family:var(--font-mono); font-size:7pt; color:#8B2B2B; margin-top:4px;">[GAP: ~80%] IM3/PNNL atlas — CoreWeave, Yondr, newer AI campuses absent</div>' +
+        '</div>'
+      )
+      .addTo(map);
+  });
+
+  addCursorHandlers('datacenters-layer');
+}
+
+function addTransmissionLayer() {
+  if (!DATA.transmission || !DATA.transmission.features) return;
+
+  map.addSource('transmission', { type: 'geojson', data: DATA.transmission });
+
+  // Add below point layers but above the boundary
+  map.addLayer({
+    id: 'transmission-layer',
+    type: 'line',
+    source: 'transmission',
+    layout: { 'visibility': 'none', 'line-cap': 'round', 'line-join': 'round' },
+    paint: {
+      'line-color': [
+        'interpolate', ['linear'], ['get', 'voltage'],
+        345, '#9C9788',
+        500, '#5a5548',
+        765, '#1A1A1A'
+      ],
+      'line-width': [
+        'interpolate', ['linear'], ['get', 'voltage'],
+        345, 0.8,
+        500, 1.5,
+        765, 2.5
+      ],
+      'line-opacity': 0.6
+    }
+  });
+
+  // Click popup for transmission lines
+  map.on('click', 'transmission-layer', function(e) {
+    var props = e.features[0].properties;
+    new maplibregl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(
+        '<div class="popup-header">Transmission Line</div>' +
+        '<div class="popup-body">' +
+        popupRow('Voltage', props.voltage + ' kV') +
+        popupRow('Owner', props.owner) +
+        popupRow('From', props.sub_1) +
+        popupRow('To', props.sub_2) +
+        popupRow('Status', props.status) +
+        popupRow('Type', props.type) +
+        '</div>'
+      )
+      .addTo(map);
+  });
+
+  addCursorHandlers('transmission-layer');
+}
+
+function addPlannedTxLayer() {
+  if (!DATA.plannedTx || !DATA.plannedTx.features) return;
+
+  map.addSource('planned-tx', { type: 'geojson', data: DATA.plannedTx });
+
+  map.addLayer({
+    id: 'planned-tx-layer',
+    type: 'line',
+    source: 'planned-tx',
+    layout: { 'visibility': 'none', 'line-cap': 'round', 'line-join': 'round' },
+    paint: {
+      'line-color': '#8B2B2B',
+      'line-width': 2.5,
+      'line-opacity': 0.7,
+      'line-dasharray': [4, 2]
+    }
+  });
+
+  map.on('click', 'planned-tx-layer', function(e) {
+    var props = e.features[0].properties;
+    var rows = '';
+    if (props.Proposal) rows += popupRow('Proposal', props.Proposal);
+    if (props.Developer) rows += popupRow('Developer', props.Developer);
+    if (props.Type) rows += popupRow('Type', props.Type);
+    if (props.kV) rows += popupRow('Voltage', props.kV + ' kV');
+    if (props._source) rows += popupRow('Source', props._source);
+    if (!rows) rows = popupRow('Source', props._source || 'PJM RTEP');
+    new maplibregl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(
+        '<div class="popup-header">Planned Transmission</div>' +
+        '<div class="popup-body">' + rows +
+        '<div style="font-family:var(--font-mono); font-size:7pt; color:#8B2B2B; margin-top:4px;">[VERIFY] PEC geometry — 7/25 proposals confirmed via PJM RTEP</div>' +
+        '</div>'
+      )
+      .addTo(map);
+  });
+
+  addCursorHandlers('planned-tx-layer');
+}
+
+function addNIETCLayer() {
+  if (!DATA.nietc || !DATA.nietc.features) return;
+
+  map.addSource('nietc', { type: 'geojson', data: DATA.nietc });
+
+  // Fill layer — semi-transparent yellow
+  map.addLayer({
+    id: 'nietc-fill',
+    type: 'fill',
+    source: 'nietc',
+    layout: { 'visibility': 'none' },
+    paint: {
+      'fill-color': '#C4A035',
+      'fill-opacity': 0.12
+    }
+  }, 'pjm-outline');  // Below PJM outline
+
+  // Outline layer
+  map.addLayer({
+    id: 'nietc-outline',
+    type: 'line',
+    source: 'nietc',
+    layout: { 'visibility': 'none' },
+    paint: {
+      'line-color': '#C4A035',
+      'line-width': 2,
+      'line-opacity': 0.7,
+      'line-dasharray': [6, 3]
+    }
+  });
+
+  map.on('click', 'nietc-fill', function(e) {
+    new maplibregl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(
+        '<div class="popup-header">NIETC Corridor</div>' +
+        '<div class="popup-body">' +
+        popupRow('Designation', 'National Interest Electric Transmission Corridor') +
+        popupRow('Authority', 'DOE (2024)') +
+        popupRow('Effect', 'Enables FERC backstop siting authority') +
+        '<div style="font-family:var(--font-mono); font-size:7pt; color:#8B2B2B; margin-top:4px;">[VERIFY] PEC digitization — no official DOE GIS; boundary ~8× larger than Audubon independent digitization</div>' +
+        '</div>'
+      )
+      .addTo(map);
+  });
+
+  addCursorHandlers('nietc-fill');
+}
+
+// ================================================================
+// Charts & KPIs
+// ================================================================
+function drawCharts() {
+  drawCapacityChart(document.getElementById('chart-capacity'));
+  drawReservesChart(document.getElementById('chart-reserves'));
+  drawInterchangeChart(document.getElementById('chart-interchange'));
+  drawGenerationChart(document.getElementById('chart-generation'));
+  drawQueueChart(document.getElementById('chart-queue'));
+  drawQueueByStateChart(document.getElementById('chart-queue-state'));
+  drawInterconnectedChart(document.getElementById('chart-interconnected'));
+  drawWaitTimeChart(document.getElementById('chart-wait-time'));
+}
+
+function updateKPIs() {
+  if (DATA.plants) {
+    document.getElementById('kpi-plants').textContent =
+      DATA.plants.summary.total_plants.toLocaleString();
+    document.getElementById('kpi-capacity').textContent =
+      Math.round(DATA.plants.summary.total_nameplate_mw / 1000).toLocaleString();
+  }
+  if (DATA.queue) {
+    var active = 0, withdrawn = 0;
+    DATA.queue.data.forEach(function(p) {
+      if (!p.submitted_year || p.submitted_year < 2020) return;
+      if (p.queue_type === 'cycle' && p.submitted_year < 2024) return;
+      if (isWithdrawnQueueProject(p)) withdrawn++;
+      else if (isActiveQueueProject(p)) active++;
+    });
+    document.getElementById('kpi-queue').textContent = active.toLocaleString();
+    document.getElementById('kpi-queue-withdrawn').textContent = withdrawn.toLocaleString() + ' withdrawn';
+  }
+}
+
+// ================================================================
+// Filter logic
+// ================================================================
+function setupFilters() {
+  document.getElementById('filter-fuel').addEventListener('change', applyFilters);
+  document.getElementById('toggle-plants').addEventListener('change', applyFilters);
+  document.getElementById('toggle-datacenters').addEventListener('change', applyFilters);
+  document.getElementById('toggle-transmission').addEventListener('change', applyFilters);
+  document.getElementById('toggle-planned-tx').addEventListener('change', applyFilters);
+  document.getElementById('toggle-nietc').addEventListener('change', applyFilters);
+
+  // Sidebar toggle
+  document.getElementById('sidebar-toggle').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    setTimeout(function() { map.resize(); }, 250);
+  });
+}
+
+function applyFilters() {
+  var fuel = document.getElementById('filter-fuel').value;
+  var showPlants = document.getElementById('toggle-plants').checked;
+  var showDC = document.getElementById('toggle-datacenters').checked;
+  var showTx = document.getElementById('toggle-transmission').checked;
+  var showPlannedTx = document.getElementById('toggle-planned-tx').checked;
+  var showNIETC = document.getElementById('toggle-nietc').checked;
+
+  // Data centers visibility
+  if (map.getLayer('datacenters-layer')) {
+    map.setLayoutProperty('datacenters-layer', 'visibility', showDC ? 'visible' : 'none');
+  }
+
+  // Transmission lines visibility
+  if (map.getLayer('transmission-layer')) {
+    map.setLayoutProperty('transmission-layer', 'visibility', showTx ? 'visible' : 'none');
+  }
+
+  // Planned transmission visibility
+  if (map.getLayer('planned-tx-layer')) {
+    map.setLayoutProperty('planned-tx-layer', 'visibility', showPlannedTx ? 'visible' : 'none');
+  }
+
+  // NIETC corridor visibility
+  if (map.getLayer('nietc-fill')) {
+    map.setLayoutProperty('nietc-fill', 'visibility', showNIETC ? 'visible' : 'none');
+    map.setLayoutProperty('nietc-outline', 'visibility', showNIETC ? 'visible' : 'none');
+  }
+
+  // Plants visibility and filter
+  if (map.getLayer('plants-layer')) {
+    map.setLayoutProperty('plants-layer', 'visibility', showPlants ? 'visible' : 'none');
+    if (showPlants && fuel !== 'all') {
+      map.setFilter('plants-layer', ['==', ['get', 'fuel'], fuel]);
+    } else {
+      map.setFilter('plants-layer', null);
+    }
+  }
+
+}
+
+</script>
+</body>
+</html>
