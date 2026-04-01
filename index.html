@@ -932,7 +932,7 @@ function drawInterchangeChart(canvas) {
   ctx.fillStyle = '#9C9788';
   ctx.font = 'italic 7px "Source Serif 4"';
   ctx.textAlign = 'right';
-  ctx.fillText(allPositive ? 'PJM is a net importer' : 'Positive = imports, negative = exports', cw - pad.right, pad.top + 5);
+  ctx.fillText(allPositive ? 'PJM is a net importer' : 'Positive = imports, negative = exports', cw - pad.right, pad.top - 8);
 
   // Y label
   drawYLabel(ctx, ch, 'TWh');
