@@ -370,6 +370,202 @@ body {
   text-align: right;
 }
 
+/* ── Mobile Layout ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    --mobile-header-height: 52px;
+  }
+
+  .explorer {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    padding: 8px 12px 6px;
+    height: var(--mobile-header-height);
+  }
+
+  .explorer-title { font-size: 14pt; margin-bottom: 2px; }
+  .explorer-subtitle { font-size: 8pt; }
+  .header-logos img { height: 28px; }
+  .header-logos { gap: 8px; }
+
+  .explorer-body {
+    display: block;
+    height: 100%;
+  }
+
+  .map-wrap {
+    position: fixed;
+    top: var(--mobile-header-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+
+  .sidebar-toggle { display: none; }
+  .source-bar { display: none; }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    min-width: unset;
+    border-right: none;
+    border-top: 2px solid var(--color-ink);
+    z-index: 15;
+    transition: top 300ms ease-out;
+    top: calc(100vh - 60px);
+    top: calc(100dvh - 60px);
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sidebar.drawer--collapsed {
+    top: calc(100vh - 60px);
+    top: calc(100dvh - 60px);
+    overflow: hidden;
+  }
+
+  .sidebar.drawer--peek {
+    top: 45%;
+    overflow-y: auto;
+  }
+
+  .sidebar.drawer--full {
+    top: var(--mobile-header-height);
+    overflow-y: auto;
+  }
+
+  /* Drawer grip */
+  .drawer-grip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 16px;
+    cursor: grab;
+    flex-shrink: 0;
+    min-height: 52px;
+    background: var(--color-newsprint);
+    border-bottom: 0.5px solid var(--color-warm-gray);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  .drawer-grip-bar {
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-warm-gray);
+  }
+
+  .drawer-grip-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-warm-gray);
+  }
+
+  /* Backdrop */
+  .mobile-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 14;
+  }
+
+  .mobile-backdrop--visible { display: block; }
+
+  /* Touch targets — 44px minimum */
+  .layer-toggle { min-height: 44px; padding: 4px 0; }
+  .layer-toggle input[type="checkbox"] { width: 20px; height: 20px; }
+  .filter-select { min-height: 44px; font-size: 16px; /* prevents iOS zoom */ }
+
+  .maplibregl-popup-close-button {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    font-size: 22px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Font floor — 4-tier cascade: 10px meta, 11px secondary, 12px tables, 13px primary */
+  .sidebar-section { font-size: 13px; }
+  .section-header { font-size: 12px; }
+  .legend-item { font-size: 12px; }
+  .legend-title { font-size: 10px; }
+  .dash-panel-title { font-size: 12px; }
+  .popup-header { font-size: 12px; }
+  .popup-row { font-size: 12px; }
+  .popup-field { font-size: 11px; }
+  .popup-value { font-size: 12px; }
+  .dash-source { font-size: 10px; }
+  .kpi-label { font-size: 10px; }
+  .flag-estimate { font-size: 10px; }
+
+  /* Charts taller on mobile for legibility */
+  .dash-chart { height: 160px !important; }
+
+  /* KPI cards larger */
+  .kpi-value { font-size: 18pt; }
+
+  /* Toast */
+  .mobile-toast {
+    position: fixed;
+    bottom: 80px;
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 10px 18px;
+    border-radius: 4px;
+    z-index: 25;
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+    white-space: nowrap;
+    max-width: calc(100vw - 32px);
+  }
+
+  .mobile-toast--visible { opacity: 1; }
+
+  /* MapLibre popup — constrain to mobile viewport */
+  .maplibregl-popup-content {
+    max-width: calc(100vw - 48px) !important;
+  }
+
+  /* Bottom safe area padding */
+  .dash-panel:last-child {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (min-width: 769px) {
+  .drawer-grip { display: none; }
+  .mobile-toast { display: none !important; }
+  .mobile-backdrop { display: none !important; }
+}
+
 </style>
 </head>
 <body>
@@ -387,6 +583,12 @@ body {
   </div>
   <div class="explorer-body">
   <div class="sidebar" id="sidebar">
+
+    <!-- Drawer grip (mobile) -->
+    <div class="drawer-grip" id="drawer-grip">
+      <div class="drawer-grip-bar"></div>
+      <span class="drawer-grip-label">Explore Data</span>
+    </div>
 
     <!-- About -->
     <div class="sidebar-section">
@@ -2177,5 +2379,273 @@ function applyFilters() {
 }
 
 </script>
+
+<script>
+// ================================================================
+// Mobile Layout (additive module — does not modify existing JS)
+// ================================================================
+var MobileLayout = {
+  _isMobile: false,
+  _state: 'collapsed',
+  _touchStartY: null,
+  _historyPushed: false,
+  _backdrop: null,
+  _toastShown: false,
+
+  init: function() {
+    if (window.innerWidth > 768) return;
+    this._isMobile = true;
+    window._isMobile = true;
+
+    var sidebar = document.getElementById('sidebar');
+    sidebar.classList.add('drawer--collapsed');
+
+    // Create persistent backdrop element
+    this._backdrop = document.createElement('div');
+    this._backdrop.className = 'mobile-backdrop';
+    this._backdrop.id = 'mobile-backdrop';
+    document.body.appendChild(this._backdrop);
+
+    this._setupGrip();
+    this._setupBackdrop();
+    this._setupHistory();
+    this._setupMapTap();
+    this._setupResize();
+    this._setupSidebarScroll();
+
+    // Toast (once per session)
+    if (!this._toastShown) {
+      this._showToast();
+      this._toastShown = true;
+    }
+
+    // Resize map to fill mobile viewport
+    if (typeof map !== 'undefined' && map.resize) {
+      setTimeout(function() { map.resize(); }, 100);
+    }
+  },
+
+  setState: function(state) {
+    var sidebar = document.getElementById('sidebar');
+    var prev = this._state;
+    sidebar.classList.remove('drawer--collapsed', 'drawer--peek', 'drawer--full');
+    sidebar.classList.add('drawer--' + state);
+    this._state = state;
+
+    // Backdrop (full state only)
+    if (this._backdrop) {
+      if (state === 'full') {
+        this._backdrop.classList.add('mobile-backdrop--visible');
+      } else {
+        this._backdrop.classList.remove('mobile-backdrop--visible');
+      }
+    }
+
+    // Map interaction
+    if (typeof map !== 'undefined') {
+      if (state === 'collapsed') {
+        map.dragPan.enable();
+        map.touchZoomRotate.enable();
+      } else {
+        map.dragPan.disable();
+        map.touchZoomRotate.disable();
+      }
+    }
+
+    // History API
+    if (state !== 'collapsed' && prev === 'collapsed') {
+      history.pushState({ drawer: state }, '');
+      this._historyPushed = true;
+    } else if (state !== 'collapsed' && prev !== 'collapsed') {
+      history.replaceState({ drawer: state }, '');
+    } else if (state === 'collapsed') {
+      this._historyPushed = false;
+    }
+
+    // Redraw charts when drawer width changes
+    if (state === 'full' || (state === 'collapsed' && prev === 'full')) {
+      setTimeout(function() {
+        if (typeof drawCharts === 'function') drawCharts();
+        if (typeof map !== 'undefined' && map.resize) map.resize();
+      }, 350);
+    }
+
+    // Scroll sidebar to top when opening
+    if (state === 'peek' && prev === 'collapsed') {
+      sidebar.scrollTop = 0;
+    }
+  },
+
+  _setupGrip: function() {
+    var grip = document.getElementById('drawer-grip');
+    if (!grip) return;
+    var self = this;
+    var touchMoved = false;
+
+    grip.addEventListener('touchstart', function(e) {
+      self._touchStartY = e.touches[0].clientY;
+      touchMoved = false;
+    }, { passive: true });
+
+    grip.addEventListener('touchmove', function() {
+      touchMoved = true;
+    }, { passive: true });
+
+    grip.addEventListener('touchend', function(e) {
+      if (self._touchStartY === null) return;
+      var dy = e.changedTouches[0].clientY - self._touchStartY;
+      self._touchStartY = null;
+
+      if (Math.abs(dy) > 30) {
+        // Swipe gesture
+        if (dy < -30) {
+          if (self._state === 'collapsed') self.setState('peek');
+          else if (self._state === 'peek') self.setState('full');
+        } else if (dy > 30) {
+          if (self._state === 'full') self.setState('peek');
+          else if (self._state === 'peek') self.setState('collapsed');
+        }
+      } else if (!touchMoved) {
+        // Tap — cycle states
+        if (self._state === 'collapsed') self.setState('peek');
+        else if (self._state === 'peek') self.setState('full');
+        else self.setState('collapsed');
+      }
+    }, { passive: true });
+
+    // Mouse click fallback (desktop dev tools testing)
+    grip.addEventListener('click', function() {
+      if ('ontouchstart' in window) return;
+      if (self._state === 'collapsed') self.setState('peek');
+      else if (self._state === 'peek') self.setState('full');
+      else self.setState('collapsed');
+    });
+  },
+
+  _setupBackdrop: function() {
+    var self = this;
+    this._backdrop.addEventListener('click', function() {
+      self.setState('collapsed');
+    });
+  },
+
+  _setupHistory: function() {
+    var self = this;
+    window.addEventListener('popstate', function() {
+      if (self._isMobile && self._state !== 'collapsed') {
+        self._historyPushed = false;
+        self.setState('collapsed');
+      }
+    });
+  },
+
+  _setupMapTap: function() {
+    // Tapping the map in peek state collapses the drawer
+    var self = this;
+    var mapEl = document.getElementById('map');
+    if (mapEl) {
+      mapEl.addEventListener('click', function() {
+        if (self._isMobile && self._state === 'peek') {
+          self.setState('collapsed');
+        }
+      });
+    }
+  },
+
+  _setupSidebarScroll: function() {
+    // When scrolled to top in peek/full state, swipe down on sidebar content collapses
+    var sidebar = document.getElementById('sidebar');
+    var self = this;
+    var startY = null;
+
+    sidebar.addEventListener('touchstart', function(e) {
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    sidebar.addEventListener('touchend', function(e) {
+      if (startY === null) return;
+      var dy = e.changedTouches[0].clientY - startY;
+      startY = null;
+
+      // Only collapse via content swipe when scrolled to top
+      if (dy > 60 && sidebar.scrollTop <= 0) {
+        if (self._state === 'full') self.setState('peek');
+        else if (self._state === 'peek') self.setState('collapsed');
+      }
+    }, { passive: true });
+  },
+
+  _setupResize: function() {
+    var self = this;
+    var timer;
+    window.addEventListener('resize', function() {
+      clearTimeout(timer);
+      timer = setTimeout(function() {
+        var nowMobile = window.innerWidth <= 768;
+
+        if (self._isMobile && !nowMobile) {
+          // Leaving mobile
+          self._isMobile = false;
+          window._isMobile = false;
+          var sidebar = document.getElementById('sidebar');
+          sidebar.classList.remove('drawer--collapsed', 'drawer--peek', 'drawer--full');
+          if (typeof map !== 'undefined') {
+            map.dragPan.enable();
+            map.touchZoomRotate.enable();
+          }
+          if (self._backdrop) self._backdrop.classList.remove('mobile-backdrop--visible');
+          if (typeof drawCharts === 'function') drawCharts();
+          if (typeof map !== 'undefined' && map.resize) map.resize();
+        } else if (!self._isMobile && nowMobile) {
+          // Entering mobile
+          self._isMobile = true;
+          window._isMobile = true;
+          self.setState('collapsed');
+          setTimeout(function() {
+            if (typeof drawCharts === 'function') drawCharts();
+            if (typeof map !== 'undefined' && map.resize) map.resize();
+          }, 350);
+        }
+      }, 200);
+    });
+  },
+
+  _showToast: function() {
+    var toast = document.createElement('div');
+    toast.className = 'mobile-toast';
+    toast.textContent = 'Tap a dot for details \u2022 Swipe up to explore';
+    document.body.appendChild(toast);
+
+    setTimeout(function() { toast.classList.add('mobile-toast--visible'); }, 500);
+    setTimeout(function() {
+      toast.classList.remove('mobile-toast--visible');
+      setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 300);
+    }, 4500);
+  }
+};
+
+// Initialize mobile layout after map and data are ready
+(function() {
+  var mobileInitDone = false;
+  function tryMobileInit() {
+    if (mobileInitDone) return;
+    if (typeof map !== 'undefined') {
+      mobileInitDone = true;
+      MobileLayout.init();
+    }
+  }
+
+  var check = setInterval(function() {
+    if (typeof map !== 'undefined' && map.isStyleLoaded && map.isStyleLoaded()) {
+      clearInterval(check);
+      tryMobileInit();
+    }
+  }, 300);
+
+  // Fallback: init after 6 seconds regardless
+  setTimeout(function() { clearInterval(check); tryMobileInit(); }, 6000);
+})();
+</script>
+
 </body>
 </html>
