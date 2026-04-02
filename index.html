@@ -464,6 +464,7 @@ body {
       <div class="legend-item"><div class="legend-swatch circle" style="background:#7c5cbf"></div> Storage</div>
       <div class="legend-item"><div class="legend-swatch circle" style="background:#6b8e4e"></div> Biomass</div>
       <div class="legend-item"><div class="legend-swatch circle" style="background:#9C9788"></div> Other</div>
+      <div class="legend-item"><div class="legend-swatch circle" style="background:transparent; border:1.5px solid #5a7da8"></div> Planned / Under review</div>
 
       <div class="legend-title">Transmission Lines</div>
       <div class="legend-item"><div class="legend-swatch" style="background:#9C9788; width:20px; height:2px; border:none;"></div> 345 kV</div>
@@ -1427,14 +1428,26 @@ function drawWaitTimeChart(canvas) {
 // ================================================================
 // Popup builders
 // ================================================================
+var STATUS_LABELS = {
+  'OP': 'Operating',
+  'SB': 'Standby',
+  'RE': 'Retired',
+  'OA': 'Out of service',
+  'OS': 'Out of service',
+  'L':  'Regulatory approvals pending',
+  'P':  'Planned',
+  'TS': 'Construction started'
+};
+
 function plantPopup(props) {
+  var statusLabel = STATUS_LABELS[props.status] || props.status;
   return '<div class="popup-header">' + escapeHtml(props.name) + '</div>' +
     '<div class="popup-body">' +
     popupRow('Fuel', props.fuel) +
     popupRow('Capacity', (props.mw != null && props.mw !== '') ? Math.round(props.mw).toLocaleString() + ' MW' : '—') +
     popupRow('Operator', props.operator) +
     popupRow('State', props.state) +
-    popupRow('Status', props.status) +
+    popupRow('Status', statusLabel) +
     '</div>';
 }
 
@@ -1807,10 +1820,16 @@ function addPlantLayer() {
   });
   colorExpr.push('#9C9788'); // default
 
+  // Filter: operational = NOT (L, P, or TS)
+  var nonOpFilter = ['in', ['get', 'status'], ['literal', ['L', 'P', 'TS']]];
+  var opFilter = ['!', ['in', ['get', 'status'], ['literal', ['L', 'P', 'TS']]]];
+
+  // Operational plants: filled dots (existing style)
   map.addLayer({
     id: 'plants-layer',
     type: 'circle',
     source: 'plants',
+    filter: opFilter,
     paint: {
       'circle-color': colorExpr,
       'circle-radius': [
@@ -1823,8 +1842,30 @@ function addPlantLayer() {
     }
   });
 
-  // Click handler
+  // Non-operational plants (L, P, TS): hollow dots with fuel-colored stroke
+  map.addLayer({
+    id: 'plants-nonop-layer',
+    type: 'circle',
+    source: 'plants',
+    filter: nonOpFilter,
+    paint: {
+      'circle-color': 'transparent',
+      'circle-radius': 4,
+      'circle-opacity': 1,
+      'circle-stroke-color': colorExpr,
+      'circle-stroke-width': 1.5
+    }
+  });
+
+  // Click handler for both layers
   map.on('click', 'plants-layer', function(e) {
+    var props = e.features[0].properties;
+    new maplibregl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(plantPopup(props))
+      .addTo(map);
+  });
+  map.on('click', 'plants-nonop-layer', function(e) {
     var props = e.features[0].properties;
     new maplibregl.Popup()
       .setLngLat(e.lngLat)
@@ -1833,6 +1874,7 @@ function addPlantLayer() {
   });
 
   addCursorHandlers('plants-layer');
+  addCursorHandlers('plants-nonop-layer');
 }
 
 // Queue layer removed — data used in charts/KPIs only (county centroids too imprecise for map)
@@ -2117,13 +2159,18 @@ function applyFilters() {
     map.setLayoutProperty('nietc-outline', 'visibility', showNIETC ? 'visible' : 'none');
   }
 
-  // Plants visibility and filter
+  // Plants visibility and filter (both operational and non-operational layers)
   if (map.getLayer('plants-layer')) {
     map.setLayoutProperty('plants-layer', 'visibility', showPlants ? 'visible' : 'none');
+    map.setLayoutProperty('plants-nonop-layer', 'visibility', showPlants ? 'visible' : 'none');
+    var opBase = ['!', ['in', ['get', 'status'], ['literal', ['L', 'P', 'TS']]]];
+    var nonOpBase = ['in', ['get', 'status'], ['literal', ['L', 'P', 'TS']]];
     if (showPlants && fuel !== 'all') {
-      map.setFilter('plants-layer', ['==', ['get', 'fuel'], fuel]);
+      map.setFilter('plants-layer', ['all', opBase, ['==', ['get', 'fuel'], fuel]]);
+      map.setFilter('plants-nonop-layer', ['all', nonOpBase, ['==', ['get', 'fuel'], fuel]]);
     } else {
-      map.setFilter('plants-layer', null);
+      map.setFilter('plants-layer', opBase);
+      map.setFilter('plants-nonop-layer', nonOpBase);
     }
   }
 
